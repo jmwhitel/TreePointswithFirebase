@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "720851842417",
+    "firebase_url": "https://treepointsfirebase.firebaseio.com",
+    "project_id": "treepointsfirebase",
+    "storage_bucket": "treepointsfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720851842417:android:99cc7637f1b35b53",
+        "android_client_info": {
+          "package_name": "whiteley.treepointswithfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720851842417-u26fqar1rrb33d24t2cnc5pt28fn31dk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "whiteley.treepointswithfirebase",
+            "certificate_hash": "62744da97ba5a9ae212a6539f30904956e243b39"
+          }
+        },
+        {
+          "client_id": "720851842417-lj087tbpqtsh8rh54s2hdsh4bncirmgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-NASf1_dFzWqDJoKkrvegnPpoxiWpxfU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720851842417-lj087tbpqtsh8rh54s2hdsh4bncirmgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
