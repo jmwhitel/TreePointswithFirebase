@@ -2,6 +2,7 @@ package whiteley.treepointswithfirebase;
 
 import android.Manifest;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.support.design.widget.BottomNavigationView;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,9 +24,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Typeface;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.lang.reflect.Type;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,9 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private LocationListener locationListener;
     public static String DBid;
     FirebaseDatabase database;
-    DatabaseReference myRef;
 
 
+
+    TextView TV1;
     EditText etNorthing, etEasting, etNotes;
     Button btnadd;
     ArrayAdapter adapter;
@@ -56,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
 
+
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(0);
+        MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -72,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
 
-                    //case R.id.viewTree:
-                    //  Intent intent1 = new Intent(MainActivity.this, ViewListContents.class);
-                    // startActivity(intent1);
+                    case R.id.viewTree:
+                      Intent intent1 = new Intent(MainActivity.this, TreeDBViewer.class);
+                     startActivity(intent1);
 
-                    //break;
+                    break;
                 }
 
                 return false;
@@ -171,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
         EditText etNotes = (EditText) findViewById(R.id.etNotes);
 
 
-        //String child = spinnerSpecies.getSelectedItem().toString();
-        //myRef = database.getReference("Species").child(child);
         databaseReference = FirebaseDatabase.getInstance().getReference("Tree Point");
         String id = databaseReference.push().getKey();
         String species = spinnerSpecies.getSelectedItem().toString();
@@ -183,30 +187,13 @@ public class MainActivity extends AppCompatActivity {
         String health = spinnerHealth.getSelectedItem().toString();
         String notes = etNotes.getText().toString();
 
-        databaseReference.child(id).child(species).child("Latitude").setValue(latitude);
-        databaseReference.child(id).child(species).child("Longitude").setValue(longitude);
-        databaseReference.child(id).child(species).child("Grade").setValue(grade);
-        databaseReference.child(id).child(species).child("Status").setValue(status);
-        databaseReference.child(id).child(species).child("Rating").setValue(health);
-        databaseReference.child(id).child(species).child("Notes").setValue(notes);
-
-        //myRef.child("Species").setValue(spinnerSpecies.getSelectedItem().toString());
-        //myRef.child("Latitude").setValue(etNorthing.getText().toString());
-
-        //myRef.child("Species").setValue(spinnerSpecies.getSelectedItem().toString());
-        //myRef.child("Longitude").setValue(etEasting.getText().toString());
-
-        //myRef.child("Species").setValue(spinnerSpecies.getSelectedItem().toString());
-        //myRef.child("Grade").setValue(spinnerGrade.getSelectedItem().toString());
-
-        //myRef.child("Species").setValue(spinnerSpecies.getSelectedItem().toString());
-        //myRef.child("Status").setValue(spinnerStatus.getSelectedItem().toString());
-
-        //myRef.child("Species").setValue(spinnerSpecies.getSelectedItem().toString());
-        //myRef.child("Health").setValue(spinnerHealth.getSelectedItem().toString());
-
-        //myRef.child("Species").setValue(spinnerSpecies.getSelectedItem().toString());
-        //myRef.child("Notes").setValue(etNotes.getText().toString());
+        databaseReference.child(id).child("Species").setValue(species);
+        databaseReference.child(id).child("Latitude").setValue(latitude);
+        databaseReference.child(id).child("Longitude").setValue(longitude);
+        databaseReference.child(id).child("Grade").setValue(grade);
+        databaseReference.child(id).child("Status").setValue(status);
+        databaseReference.child(id).child("Rating").setValue(health);
+        databaseReference.child(id).child("Notes").setValue(notes);
 
         Toast.makeText(MainActivity.this, "Tree Created Successfully", Toast.LENGTH_SHORT).show();
 
