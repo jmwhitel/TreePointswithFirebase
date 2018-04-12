@@ -24,11 +24,11 @@ import java.util.ArrayList;
 
 
 public class TreeDBViewer extends AppCompatActivity {
-
+    private static final String TAG = "Tree Viewer";
     private ListView listView;
     FirebaseDatabase database;
     private DatabaseReference myRef;
-    private ArrayList<String> mTreeSpecies = new ArrayList<>();
+    private ArrayList<Tree> mTreeList = new ArrayList<>();
     DatabaseReference databaseReference;
 
     @Override
@@ -37,33 +37,27 @@ public class TreeDBViewer extends AppCompatActivity {
         setContentView(R.layout.activity_tree_viewer);
         database = FirebaseDatabase.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        // TODO: Sort by location using GeoFire
         Query allTrees = databaseReference.child("Tree Point");
+        AdapterTree adbTree;
+        final ArrayList<Tree> listOfTrees  = new ArrayList<Tree>();
+
+        //then populate myListItems
+
+        adbTree= new AdapterTree (R.layout.activity_tree_viewer.this, 0, listOfTrees);
+        listView.setAdapter(adbTree);
+
 
         listView = (ListView) findViewById(R.id.listViewTrees);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mTreeSpecies);
+        final ArrayAdapter<Tree> arrayAdapter = new ArrayAdapter<Tree>(this, android.R.layout.simple_list_item_1, mTreeList);
         listView.setAdapter(arrayAdapter);
 
-        allTrees.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot dataSnapshot1 = dataSnapshot;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    System.out.println(snapshot);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("Viewer","ERORR");
-            }
-        });
         allTrees.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                DataSnapshot dataSnapshot1 =dataSnapshot;
-                String value = dataSnapshot.getValue(String.class);
-                mTreeSpecies.add(value);
-                arrayAdapter.notifyDataSetChanged();
+                Log.i(TAG,"on child add data snapshot: "+dataSnapshot.getKey());
+                Tree tree = dataSnapshot.getValue(Tree.class);
+                listOfTrees.add(tree);
             }
 
             @Override
@@ -86,6 +80,10 @@ public class TreeDBViewer extends AppCompatActivity {
 
             }
         });
+
+
+
+
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
