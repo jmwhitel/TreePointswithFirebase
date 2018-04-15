@@ -35,6 +35,7 @@ import java.lang.reflect.Type;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnRequestLocation;
+    private Button btnPlus;
     private TextView textView;
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -47,10 +48,20 @@ public class MainActivity extends AppCompatActivity {
     EditText etNorthing, etEasting, etNotes;
     Button btnadd;
     ArrayAdapter adapter;
+    Spinner spinnerDBH;
+    Spinner spinnerNote;
     Spinner spinnerSpecies;
     Spinner spinnerGrade;
     Spinner spinnerStatus;
     Spinner spinnerHealth;
+    Spinner m1;
+    Spinner m2;
+    Spinner m3;
+    Spinner m4;
+    Spinner m5;
+    Spinner m6;
+    Spinner m7;
+    Spinner m8;
     DatabaseReference databaseReference;
 
 
@@ -79,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.viewTree:
-                      Intent intent1 = new Intent(MainActivity.this, TreeDBViewer.class);
-                     startActivity(intent1);
+                        Intent intent1 = new Intent(MainActivity.this, TreeDBViewer.class);
+                        startActivity(intent1);
 
-                    break;
+                        break;
                 }
 
                 return false;
@@ -99,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         spinnerSpecies = (Spinner) (findViewById(R.id.species_spinner));
         spinnerGrade = (Spinner) (findViewById(R.id.grade_spinner));
         spinnerStatus = (Spinner) (findViewById(R.id.status_spinner));
+        spinnerDBH = (Spinner) (findViewById(R.id.dbh_spinner));
 
         spinnerSpecies.setAdapter(adapter);
-
 
         adapter = ArrayAdapter.createFromResource(this, R.array.grade_options, android.R.layout.simple_spinner_item);
 
@@ -115,12 +126,30 @@ public class MainActivity extends AppCompatActivity {
 
         spinnerStatus.setAdapter(adapter);
 
-
         adapter = ArrayAdapter.createFromResource(this, R.array.healthrating_options, android.R.layout.simple_spinner_item);
 
         spinnerHealth = (Spinner) (findViewById(R.id.health_spinner));
 
         spinnerHealth.setAdapter(adapter);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.dbh_options, android.R.layout.simple_spinner_item);
+
+        spinnerDBH = (Spinner) (findViewById(R.id.dbh_spinner));
+
+        spinnerDBH.setAdapter(adapter);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.note_options, android.R.layout.simple_spinner_item);
+
+        spinnerNote = (Spinner) (findViewById(R.id.notes_spinner));
+
+        spinnerNote.setAdapter(adapter);
+
+        adapter=ArrayAdapter.createFromResource(this,R.array.m1_options,android.R.layout.simple_spinner_item);
+
+        m1=(Spinner)(findViewById(R.id.m1));
+
+        m1.setAdapter(adapter);
+
 
         btnRequestLocation = (Button) findViewById(R.id.btnRequestLocation);
         final TextView textview1 = (TextView) findViewById(R.id.etNorthing);
