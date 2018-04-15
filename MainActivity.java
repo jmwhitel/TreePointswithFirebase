@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.viewTree:
-                        Intent intent1 = new Intent(MainActivity.this, TreeDBViewer.class);
-                        startActivity(intent1);
+                      Intent intent1 = new Intent(MainActivity.this, TreeDBViewer.class);
+                     startActivity(intent1);
 
-                        break;
+                    break;
                 }
 
                 return false;
