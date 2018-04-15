@@ -1,43 +1,46 @@
 <resources>
     <string name="app_name">TreePointswithFirebase</string>
 
-        <string-array name="tree_spinner_options">
-            <item name="species">Select Species</item>
-            <item name="pine">Pine</item>
-            <item name="water_oak">Water Oak</item>
-            <item name="sweet_gum">Sweet Gum</item>
-            <item name="maple">Maple</item>
-            <item name="hickory">Hickory</item>
-            <item name="palm">Palm</item>
-            <item name="crate myrtle">Crate Myrtle</item>
-            <item name="walnut">Walnut</item>
-            <item name="birch">Birch</item>
-            <item name="pear">Pear</item>
-        </string-array>
+    <string-array name="tree_spinner_options">
+        <item name="species">Select Species</item>
+        <item name="pine">Pine</item>
+        <item name="water_oak">Water Oak</item>
+        <item name="sweet_gum">Sweet Gum</item>
+        <item name="maple">Maple</item>
+        <item name="hickory">Hickory</item>
+        <item name="palm">Palm</item>
+        <item name="crate myrtle">Crate Myrtle</item>
+        <item name="walnut">Walnut</item>
+        <item name="birch">Birch</item>
+        <item name="pear">Pear</item>
+    </string-array>
 
 
-        <string-array name="grade_options">
-            <item name="species">Select Grade</item>
-            <item name="a">A</item>
-            <item name="b">B</item>
-            <item name="c">C</item>
-            <item name="d">D</item>
-        </string-array>
+    <string-array name="grade_options">
+        <item name="species">Select Grade</item>
+        <item name="a">A</item>
+        <item name="b">B</item>
+        <item name="c">C</item>
+        <item name="d">D</item>
+    </string-array>
 
 
-        <string-array name="status_options">
-            <item name="status">Select Status</item>
-            <item name="significant">Significant</item>
-            <item name="grand">Grand</item>
-            <item name="protected">Protected</item>
-        </string-array>
+    <string-array name="status_options">
+        <item name="status">Select Status</item>
+        <item name="significant">Significant</item>
+        <item name="grand">Grand</item>
+        <item name="protected">Protected</item>
+    </string-array>
 
 
-        <string-array name="healthrating_options">
-            <item name="healthrating">Health Rating</item>
-            <item name="poor">Poor</item>
-            <item name="fair">Fair</item>
-            <item name="good">Good</item>
-        </string-array>
+    <string-array name="healthrating_options">
+        <item name="healthrating">Health Rating</item>
+        <item name="poor">Poor</item>
+        <item name="fair">Fair</item>
+        <item name="good">Good</item>
+    </string-array>
 
-    </resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

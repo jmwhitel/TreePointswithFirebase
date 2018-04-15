@@ -58,12 +58,12 @@ public class AdapterTree extends ArrayAdapter<Tree>{
         final ViewHolder holder;
         try {
             if (convertView == null) {
-                vi = inflater.inflate(R.layout.layout_tree, null);
+                vi = inflater.inflate(R.layout.fragment_tree_item, null);
                 holder = new ViewHolder();
 
                 holder.display_status= (TextView) vi.findViewById(R.id.display_status);
                 holder.display_rating= (TextView) vi.findViewById(R.id.display_rating);
-                holder.display_grade = (TextView) vi.findViewById(R.id.display_grade;
+                holder.display_grade = (TextView) vi.findViewById(R.id.display_grade);
                 holder.display_latitude = (TextView) vi.findViewById(R.id.display_latitude);
                 holder.display_longitude = (TextView) vi.findViewById(R.id.display_longitude);
                 holder.display_species = (TextView) vi.findViewById(R.id.display_species);
@@ -79,8 +79,8 @@ public class AdapterTree extends ArrayAdapter<Tree>{
             holder.display_status.setText(lTree.get(position).getStatus());
             holder.display_rating.setText(lTree.get(position).getRating());
             holder.display_grade.setText(lTree.get(position).getGrade());
-            holder.display_latitude.setText(String.valueOf(lTree.get(position).getLatitude()));
-            holder.display_longitude.setText(String.valueOf(lTree.get(position).getLongitude()));
+            holder.display_latitude.setText(lTree.get(position).getLatitude().substring(0,6));
+            holder.display_longitude.setText(lTree.get(position).getLongitude().substring(0,6));
             holder.display_species.setText(lTree.get(position).getStatus());
             holder.display_notes.setText(lTree.get(position).getNotes());
 

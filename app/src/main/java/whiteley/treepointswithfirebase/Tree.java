@@ -1,58 +1,67 @@
 package whiteley.treepointswithfirebase;
 
 public class Tree {
-    private String status;
-    private String rating;
-    private String grade;
-    private Float latitude;
-    private Float longitude;
-    private String species;
-    private String notes;
+    //TODO: Update lat and long to float
+    private String Key;
+    private String Status;
+    private String Rating;
+    private String Grade;
+    private String Latitude;
+    private String Longitude;
+    private String Species;
+    private String Notes;
 
     // Required default constructor for Firebase object mapping
     @SuppressWarnings("unused")
-    private Tree() {
+    public Tree() {
     }
 
-    Tree(String status, String rating, String grade, Float latitude, Float longitude, String species, String notes) {
-        this.status = status;
-        this.rating = rating;
-        this.grade = grade;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.species = species;
-        this.notes = notes;
+    Tree(String Status, String Rating, String Grade, String Latitude, String Longitude, String Species, String Notes) {
+        this.Status = Status;
+        this.Rating = Rating;
+        this.Grade = Grade;
+        this.Latitude = Latitude;
+        this.Longitude = Longitude;
+        this.Species = Species;
+        this.Notes = Notes;
     }
 
 
     public String getStatus(){
-        return status;
+        return Status;
     }
 
     public String getRating(){
-        return rating;
+        return Rating;
     }
 
     public String getGrade() {
-        return grade;
+        return Grade;
     }
 
-    public Float getLatitude() {
-        return latitude;
+    public String getLatitude() {
+        return Latitude;
     }
 
-    public Float getLongitude() {
-        return longitude;
+    public String getLongitude() {
+        return Longitude;
     }
 
     public String getSpecies() {
-        return species;
+        return Species;
     }
 
     public String getNotes() {
-        return notes;
+        return Notes;
     }
 
+    public String getKey(){
+        return Key;
+    }
+
+    public void setKey(String Key){
+        this.Key = Key;
+    }
 
 
 }

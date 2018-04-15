@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BlankFragment">
+
+    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:background="@drawable/background_black_border"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/label_status"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text="Status" />
+
+        <TextView
+            android:id="@+id/display_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/label_status"
+            android:layout_toRightOf="@+id/label_status"
+            android:text=" " />
+
+        <TextView
+            android:id="@+id/label_species"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_status"
+            android:layout_alignStart="@+id/label_status"
+            android:layout_below="@+id/label_status"
+            android:text="Species" />
+
+        <TextView
+            android:id="@+id/display_species"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/display_status"
+            android:layout_toRightOf="@+id/label_species"
+            android:text=" " />
+
+        <TextView
+            android:id="@+id/label_rating"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_species"
+            android:layout_alignStart="@+id/label_species"
+            android:layout_below="@+id/label_species"
+            android:text="Rating:" />
+
+        <TextView
+            android:id="@+id/display_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/display_species"
+            android:layout_toRightOf="@+id/label_rating"
+            android:text=" " />
+
+        <TextView
+            android:id="@+id/label_grade"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_rating"
+            android:layout_alignStart="@+id/label_rating"
+            android:layout_below="@+id/label_rating"
+            android:text="Grade:" />
+
+        <TextView
+            android:id="@+id/display_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/display_rating"
+            android:layout_toRightOf="@+id/label_grade"
+            android:text=" " />
+
+        <TextView
+            android:id="@+id/label_lat"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_grade"
+            android:layout_below="@+id/label_grade"
+            android:text="Latitude:" />
+
+        <TextView
+            android:id="@+id/display_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/display_grade"
+            android:layout_toRightOf="@+id/label_lat"
+            android:text=" " />
+
+        <TextView
+            android:id="@+id/label_lon"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_lat"
+            android:layout_below="@+id/label_lat"
+            android:text="Longitude" />
+
+        <TextView
+            android:id="@+id/display_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/display_latitude"
+            android:layout_toRightOf="@+id/label_lon"
+            android:text=" " />
+
+
+        <TextView
+            android:id="@+id/display_notes"
+            android:layout_width="195dp"
+            android:layout_height="48dp"
+            android:layout_alignEnd="@+id/btn_delete_tree"
+            android:layout_alignTop="@+id/label_status"
+            android:background="@drawable/background_black_border"
+            android:text=" "
+            android:layout_alignRight="@+id/btn_delete_tree" />
+
+        <Button
+            android:id="@+id/btn_update_tree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btn_delete_tree"
+            android:layout_toLeftOf="@+id/btn_delete_tree"
+            android:layout_toStartOf="@+id/btn_delete_tree"
+            android:text="Update"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/display_notes" />
+
+        <Button
+            android:id="@+id/btn_delete_tree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="Delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_update_tree"
+            app:layout_constraintStart_toEndOf="@+id/display_species"
+            app:layout_constraintTop_toBottomOf="@+id/display_notes" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -39,48 +39,72 @@ public class TreeDBViewer extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         // TODO: Sort by location using GeoFire
         Query allTrees = databaseReference.child("Tree Point");
-        AdapterTree adbTree;
         final ArrayList<Tree> listOfTrees  = new ArrayList<Tree>();
 
         //then populate myListItems
 
-        adbTree= new AdapterTree (R.layout.activity_tree_viewer.this, 0, listOfTrees);
-        listView.setAdapter(adbTree);
 
 
-        listView = (ListView) findViewById(R.id.listViewTrees);
-        final ArrayAdapter<Tree> arrayAdapter = new ArrayAdapter<Tree>(this, android.R.layout.simple_list_item_1, mTreeList);
-        listView.setAdapter(arrayAdapter);
 
-        allTrees.addChildEventListener(new ChildEventListener() {
+          listView = (ListView) findViewById(R.id.listViewTrees);
+//        final ArrayAdapter<Tree> arrayAdapter = new ArrayAdapter<Tree>(this, android.R.layout.simple_list_item_1, mTreeList);
+//        listView.setAdapter(arrayAdapter);
+
+
+        allTrees.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.i(TAG,"on child add data snapshot: "+dataSnapshot.getKey());
-                Tree tree = dataSnapshot.getValue(Tree.class);
-                listOfTrees.add(tree);
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            }
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Tree tree = snapshot.getValue(Tree.class);
+                    tree.setKey(snapshot.getKey());
+                    listOfTrees.add(tree);
+                }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                AdapterTree adbTree= new AdapterTree (TreeDBViewer.this, 0, listOfTrees);
+                listView.setAdapter(adbTree);
 
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("Viewer","ERORR");
             }
         });
 
+
+
+//        allTrees.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Log.i(TAG,"on child add data snapshot: "+dataSnapshot.getKey());
+//                Tree tree = dataSnapshot.getValue(Tree.class);
+//                listOfTrees.add(tree);
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
 
