@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TreeDBViewer"></activity>
+        <activity android:name=".MapViewer"></activity>
 
     </application>
 

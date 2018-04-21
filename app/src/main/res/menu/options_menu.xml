@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_nature_black_24dp"
         android:title="View Tree"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/viewMap"
+        android:icon="@drawable/ic_add_location_black_24dp"
+        android:title="View Map"
+        app:showAsAction="always"/>
 </menu>

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
+        MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -94,6 +95,13 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent1);
 
                         break;
+
+                    case R.id.viewMap:
+                        Intent intent2 = new Intent(MainActivity.this, MapViewer.class);
+                        startActivity(intent2);
+
+                        break;
+
                 }
 
                 return false;
@@ -103,6 +111,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
+
+         AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+                ((TextView) parent.getChildAt(0)).setTextSize(10);
+
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        };
+
+
 
 
         adapter = ArrayAdapter.createFromResource(this, R.array.tree_spinner_options, android.R.layout.simple_spinner_item);
