@@ -1,8 +1,12 @@
 package whiteley.treepointswithfirebase;
 
 import android.Manifest;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.BottomNavigationView;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,12 +34,17 @@ import android.graphics.Typeface;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnRequestLocation;
+    private Button btnTakePicture;
+    public static int count = 0;
+    static final int REQUEST_IMAGE_CAPTURE = 11;
     private Button btnPlus;
     private TextView textView;
     private LocationManager locationManager;
@@ -65,11 +75,17 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
 
+//    public void onLaunchCamera() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(MainActivity.this.getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         database = FirebaseDatabase.getInstance();
 
 
@@ -150,6 +166,20 @@ public class MainActivity extends AppCompatActivity {
 
         m1.setAdapter(adapter);
 
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
+        File newdir = new File(dir);
+        newdir.mkdirs();
+
+        btnTakePicture = (Button) findViewById(R.id.take_picture);
+        btnTakePicture.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(MainActivity.this.getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
 
         btnRequestLocation = (Button) findViewById(R.id.btnRequestLocation);
         final TextView textview1 = (TextView) findViewById(R.id.etNorthing);
@@ -231,13 +261,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void configurebtnRequestLocation() {
-        btnRequestLocation.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                locationManager.requestLocationUpdates("gps", 0, 50, locationListener);
-            }
-        }));
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Log.d("CameraDemo", "Pic saved");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == MainActivity.RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mImageLabel.setImageBitmap(imageBitmap);
+            encodeBitmapAndSaveToFirebase(imageBitmap);
+        }
     }
 }
 
