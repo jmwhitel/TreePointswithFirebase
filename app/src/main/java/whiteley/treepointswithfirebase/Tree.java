@@ -1,67 +1,78 @@
 package whiteley.treepointswithfirebase;
 
+import java.util.ArrayList;
+
 public class Tree {
     //TODO: Update lat and long to float
-    private String Key;
-    private String Status;
-    private String Rating;
-    private String Grade;
-    private String Latitude;
-    private String Longitude;
-    private String Species;
-    private String Notes;
+    private String key;
+    private String status;
+    private String grade;
+    private Float latitude;
+    private Float longitude;
+    private String species;
+    private String notes;
+    private String comments;
+    private ArrayList dbh;
+    private String geohash;
+    private String health;
+    private Integer treeId;
+
 
     // Required default constructor for Firebase object mapping
     @SuppressWarnings("unused")
     public Tree() {
     }
 
-    Tree(String Status, String Rating, String Grade, String Latitude, String Longitude, String Species, String Notes) {
-        this.Status = Status;
-        this.Rating = Rating;
-        this.Grade = Grade;
-        this.Latitude = Latitude;
-        this.Longitude = Longitude;
-        this.Species = Species;
-        this.Notes = Notes;
+    Tree(String status, String rating, String grade, Float latitude, Float longitude, String species, String notes) {
+        this.status = status;
+        this.health = rating;
+        this.grade = grade;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.species = species;
+        this.notes = notes;
     }
 
 
     public String getStatus(){
-        return Status;
+        return status;
     }
 
     public String getRating(){
-        return Rating;
+        return health;
     }
 
     public String getGrade() {
-        return Grade;
+        return grade;
     }
 
-    public String getLatitude() {
-        return Latitude;
+    public Float getLatitude() {
+        return latitude;
     }
 
-    public String getLongitude() {
-        return Longitude;
+    public Float getLongitude() {
+        return longitude;
     }
 
     public String getSpecies() {
-        return Species;
+        return species;
     }
 
     public String getNotes() {
-        return Notes;
+        return notes;
     }
 
     public String getKey(){
-        return Key;
+        return key;
     }
 
     public void setKey(String Key){
-        this.Key = Key;
+        this.key = Key;
     }
 
+
+    public void pushToFirebase (){
+
+    }
 
 }

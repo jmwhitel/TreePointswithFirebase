@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
     public static String DBid;
-    FirebaseDatabase database;
-
+    private Tree tree;
 
 
     TextView TV1;
@@ -77,21 +76,19 @@ public class MainActivity extends AppCompatActivity {
     Spinner m7;
     Spinner m8;
     DatabaseReference databaseReference;
+    String projectId = "PojectId";
 
 
-//    public void onLaunchCamera() {
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(MainActivity.this.getPackageManager()) != null) {
-//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//        }
-//    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        database = FirebaseDatabase.getInstance();
 
+        tree = new Tree();
+        databaseReference = FirebaseDatabase.getInstance().getReference(projectId).child("Trees");
+        tree.setKey(databaseReference.push().getKey());
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -233,7 +230,8 @@ public class MainActivity extends AppCompatActivity {
     private void configurebtnRequestLocation() {
     }
 
-    public void btnAdd(View view){
+    public void btnAddToDatabase(View view){
+
         Spinner spinnerSpecies = (Spinner) findViewById(R.id.species_spinner);
         EditText etNorthing = (EditText) findViewById(R.id.etNorthing);
         EditText etEasting = (EditText) findViewById(R.id.etEasting);
@@ -243,9 +241,8 @@ public class MainActivity extends AppCompatActivity {
         EditText etNotes = (EditText) findViewById(R.id.etNotes);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Tree Point");
-        String id = databaseReference.push().getKey();
-        String species = spinnerSpecies.getSelectedItem().toString();
+
+//        tree.setSpecies(spinnerSpecies.getSelectedItem().toString());
         String latitude = etNorthing.getText().toString();
         String longitude = etEasting.getText().toString();
         String grade = spinnerGrade.getSelectedItem().toString();
@@ -253,13 +250,7 @@ public class MainActivity extends AppCompatActivity {
         String health = spinnerHealth.getSelectedItem().toString();
         String notes = etNotes.getText().toString();
 
-        databaseReference.child(id).child("Species").setValue(species);
-        databaseReference.child(id).child("Latitude").setValue(latitude);
-        databaseReference.child(id).child("Longitude").setValue(longitude);
-        databaseReference.child(id).child("Grade").setValue(grade);
-        databaseReference.child(id).child("Status").setValue(status);
-        databaseReference.child(id).child("Rating").setValue(health);
-        databaseReference.child(id).child("Notes").setValue(notes);
+        tree.pushToFirebase();
 
         Toast.makeText(MainActivity.this, "Tree Created Successfully", Toast.LENGTH_SHORT).show();
 
