@@ -228,9 +228,9 @@ public class MainActivity extends AppCompatActivity {
         Spinner spinnerHealth = (Spinner) findViewById(R.id.health_spinner);
         EditText etNotes = (EditText) findViewById(R.id.etNotes);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("ProjectId");
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Tree Point");
-        String id = databaseReference.push().getKey();
+        String id = databaseReference.child("Trees").push().getKey();
         String species = spinnerSpecies.getSelectedItem().toString();
         String latitude = etNorthing.getText().toString();
         String longitude = etEasting.getText().toString();
@@ -239,13 +239,13 @@ public class MainActivity extends AppCompatActivity {
         String health = spinnerHealth.getSelectedItem().toString();
         String notes = etNotes.getText().toString();
 
-        databaseReference.child(id).child("Species").setValue(species);
-        databaseReference.child(id).child("Latitude").setValue(latitude);
-        databaseReference.child(id).child("Longitude").setValue(longitude);
-        databaseReference.child(id).child("Grade").setValue(grade);
-        databaseReference.child(id).child("Status").setValue(status);
-        databaseReference.child(id).child("Rating").setValue(health);
-        databaseReference.child(id).child("Notes").setValue(notes);
+        databaseReference.child("Trees").child(id).child("species").setValue(species);
+        databaseReference.child("Trees").child(id).child("latitude").setValue(latitude);
+        databaseReference.child("Trees").child(id).child("longitude").setValue(longitude);
+        databaseReference.child("Trees").child(id).child("grade").setValue(grade);
+        databaseReference.child("Trees").child(id).child("status").setValue(status);
+        databaseReference.child("Trees").child(id).child("rating").setValue(health);
+        databaseReference.child("Trees").child(id).child("notes").setValue(notes);
 
         Toast.makeText(MainActivity.this, "Tree Created Successfully", Toast.LENGTH_SHORT).show();
 
