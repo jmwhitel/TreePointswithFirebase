@@ -184,6 +184,15 @@
             android:drawableStart="@drawable/ic_cloud_upload_black_24dp"
             android:text="Add to Database" />
 
+        <Button
+            android:drawableLeft="@android:drawable/ic_menu_camera"
+            android:id="@+id/take_picture"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Take Picture" />
+
     </LinearLayout>
 
 
@@ -203,16 +212,5 @@
 
     </RelativeLayout>
 
-    <Button
-        android:drawableLeft="@android:drawable/ic_menu_camera"
-        android:id="@+id/take_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="18dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="13dp" />
 
 </RelativeLayout>
