@@ -128,6 +128,12 @@ public class TreeDBViewer extends AppCompatActivity {
                     case R.id.viewTree:
 
                         break;
+
+                    case R.id.viewMap:
+                        Intent intent2 = new Intent(TreeDBViewer.this, MapViewer.class);
+                        startActivity(intent2);
+
+                        break;
                 }
 
                 return false;

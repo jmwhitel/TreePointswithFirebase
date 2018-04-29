@@ -81,7 +81,7 @@ public class AdapterTree extends ArrayAdapter<Tree>{
             holder.display_grade.setText(lTree.get(position).getGrade());
             holder.display_latitude.setText(lTree.get(position).getLatitude().substring(0,6));
             holder.display_longitude.setText(lTree.get(position).getLongitude().substring(0,6));
-            holder.display_species.setText(lTree.get(position).getStatus());
+            holder.display_species.setText(lTree.get(position).getSpecies());
             holder.display_notes.setText(lTree.get(position).getNotes());
 
         } catch (Exception e) {
