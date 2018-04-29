@@ -17,35 +17,16 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/pic_layout"
-        android:layout_alignParentLeft="true">
 
-        <ImageView
-            android:id="@+id/treePic"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:paddingTop="10dp"
-            android:src="@drawable/tree_view_login" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/tree_no_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/treePic"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="53dp"
-        android:layout_marginTop="28dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tree No: 1" />
-    </LinearLayout>
+        android:layout_marginEnd="49dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/tree_view_login" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -221,5 +202,17 @@
         </android.support.design.widget.BottomNavigationView>
 
     </RelativeLayout>
+
+    <Button
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:id="@+id/take_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="18dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="13dp" />
 
 </RelativeLayout>
