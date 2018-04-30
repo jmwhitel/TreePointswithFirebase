@@ -1,7 +1,11 @@
 package whiteley.treepointswithfirebase;
 
 import android.Manifest;
+
+import android.app.Dialog;
+
 import android.graphics.Bitmap;
+
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -19,11 +23,13 @@ import android.support.v4.app.ActivityCompat;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +39,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.Typeface;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -55,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public static String DBid;
     private Tree tree;
 
+    FirebaseDatabase database;
 
     TextView TV1;
     EditText etNorthing, etEasting, etNotes;
@@ -86,14 +95,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         tree = new Tree();
         databaseReference = FirebaseDatabase.getInstance().getReference(projectId).child("Trees");
-        tree.setKey(databaseReference.push().getKey());
+        //tree.setTreeId(databaseReference.push().getKey());
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
+        MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -111,6 +121,13 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent1);
 
                         break;
+
+                    case R.id.viewMap:
+                        Intent intent2 = new Intent(MainActivity.this, MapViewer.class);
+                        startActivity(intent2);
+
+                        break;
+
                 }
 
                 return false;
@@ -120,6 +137,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
+
+         AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+                ((TextView) parent.getChildAt(0)).setTextSize(10);
+
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        };
+
+
 
 
         adapter = ArrayAdapter.createFromResource(this, R.array.tree_spinner_options, android.R.layout.simple_spinner_item);

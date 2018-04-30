@@ -77,12 +77,12 @@ public class AdapterTree extends ArrayAdapter<Tree>{
 
 
             holder.display_status.setText(lTree.get(position).getStatus());
-            holder.display_rating.setText(lTree.get(position).getRating());
+            holder.display_rating.setText(lTree.get(position).getHealth());
             holder.display_grade.setText(lTree.get(position).getGrade());
-            holder.display_latitude.setText(lTree.get(position).getLatitude().substring(0,6));
-            holder.display_longitude.setText(lTree.get(position).getLongitude().substring(0,6));
-            holder.display_species.setText(lTree.get(position).getStatus());
-            holder.display_notes.setText(lTree.get(position).getNotes());
+            holder.display_latitude.setText(String.valueOf(lTree.get(position).getLatitude()).substring(0,6));
+            holder.display_longitude.setText(String.valueOf(lTree.get(position).getLongitude()).substring(0,6));
+            holder.display_species.setText(lTree.get(position).getSpecies());
+            holder.display_notes.setText(lTree.get(position).getNotes().toString());
 
         } catch (Exception e) {
 

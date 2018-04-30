@@ -59,7 +59,7 @@ public class TreeDBViewer extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Tree tree = snapshot.getValue(Tree.class);
-                    tree.setKey(snapshot.getKey());
+                    tree.setTreeId(Integer.parseInt(snapshot.getKey()));
                     listOfTrees.add(tree);
                 }
 
@@ -126,6 +126,12 @@ public class TreeDBViewer extends AppCompatActivity {
                         break;
 
                     case R.id.viewTree:
+
+                        break;
+
+                    case R.id.viewMap:
+                        Intent intent2 = new Intent(TreeDBViewer.this, MapViewer.class);
+                        startActivity(intent2);
 
                         break;
                 }
