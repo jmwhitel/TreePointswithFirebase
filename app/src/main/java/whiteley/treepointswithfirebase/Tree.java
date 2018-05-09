@@ -1,6 +1,17 @@
 package whiteley.treepointswithfirebase;
 
+import android.app.AuthenticationRequiredException;
+import android.util.Log;
+
+import com.google.firebase.FirebaseError;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Tree {
     private String status;
@@ -8,12 +19,15 @@ public class Tree {
     private Float latitude;
     private Float longitude;
     private String species;
-    private ArrayList notes;
+    private ArrayList notes = new ArrayList();
     private String comments;
-    private ArrayList dbh;
+    private ArrayList dbh = new ArrayList();
     private String geohash;
     private String health;
     private Integer treeId;
+    private ArrayList images = new ArrayList();
+    private DatabaseReference treeDbRef;
+    private DatabaseReference imageDbRef;
 
 
     // Required default constructor for Firebase object mapping
@@ -121,6 +135,8 @@ public class Tree {
     }
     public void setGeohash(String geohash){
         this.geohash=geohash;
+
+
 //        if(  this.latitude !=null && this.longitude != null){
     //TODO: use this to add geohash functionality: https://github.com/kungfoo/geohash-java
 //        }
@@ -134,10 +150,43 @@ public class Tree {
         this.treeId = treeId;
     }
 
+    public void setImages(ArrayList imagesEncoded){
+        this.images = imagesEncoded;
+    }
+    public void addImage(String imageEncoded){
+        this.images.add(imageEncoded);
+    }
 
-    public void pushToFirebase (){
+    public HashMap<String, Object> toMap() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("status", status);
+        map.put("grade", grade);
+        map.put("latitude", latitude);
+        map.put("longitude", longitude);
+        map.put("species", species);
+        map.put("notes", notes);
+        map.put("comments", comments);
+        map.put("dbh", dbh);
+        map.put("geohash", geohash);
+        map.put("health", health);
+        return map;
+    }
+    public Boolean pushToFirebase (DatabaseReference projectRef){
+            if(this.treeId == null) {
+                return false;
+            }
+        // Create new post at /user-posts/$userid/$postid and at
+        // /posts/$postid simultaneously
+        Map<String, Object> treeValues = this.toMap();
 
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/Trees/" + treeId, treeValues);
+        childUpdates.put("/Images/" + treeId, images);
+
+        projectRef.updateChildren(childUpdates);
+        return true;
     }
 
 }
+
 

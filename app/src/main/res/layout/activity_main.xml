@@ -46,32 +46,25 @@
         android:layout_alignParentLeft="true"
         android:orientation="vertical"
         android:id="@+id/top_layout">
-        <Spinner
+        <AutoCompleteTextView
+            style="@style/treeAutoCompleteStyle"
             android:id="@+id/species_spinner"
-            android:layout_marginTop="5dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:spinnerMode="dialog"
+            android:hint="@string/species_hint"
+            android:completionHint="@string/species_hint"
             />
-
-        <Spinner
+        <AutoCompleteTextView
+            style="@style/treeAutoCompleteStyle"
             android:id="@+id/dbh_spinner"
-            android:layout_marginTop="5dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:spinnerMode="dialog"
+            android:hint="@string/dbh_hint"
+            android:completionHint="@string/dbh_hint"
             />
 
-        <Spinner
+        <AutoCompleteTextView
+            style="@style/treeAutoCompleteStyle"
             android:id="@+id/health_spinner"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:spinnerMode="dialog">
-        </Spinner>
+            android:hint="@string/health_hint"
+            android:completionHint="@string/health_hint"
+            />
     </LinearLayout>
 
 
@@ -86,53 +79,41 @@
         android:orientation="vertical"
         >
 
-        <Spinner
+        <AutoCompleteTextView
+            style="@style/treeAutoCompleteStyle"
             android:id="@+id/grade_spinner"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:spinnerMode="dialog"
+            android:hint="@string/grade_hint"
+            android:completionHint="@string/grade_hint"
             />
 
-        <Spinner
+        <AutoCompleteTextView
+            style="@style/treeAutoCompleteStyle"
             android:id="@+id/status_spinner"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:spinnerMode="dialog"
+            android:hint="@string/status_hint"
+            android:completionHint="@string/status_hint"
             />
 
-        <Spinner
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+        <AutoCompleteTextView
+            style="@style/treeAutoCompleteStyle"
             android:id="@+id/notes_spinner"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:spinnerMode="dialog">
-
-        </Spinner>
+            android:hint="@string/notes_hint"
+            android:completionHint="@string/notes_hint"
+            />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/middle_layout"
-        android:id="@+id/measurements"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/m1"></Spinner>
+    <!--<LinearLayout-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/middle_layout"-->
+        <!--android:id="@+id/measurements"-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:layout_marginBottom="25dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:orientation="horizontal">-->
 
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 
 
@@ -140,17 +121,17 @@
         android:layout_width="200dp"
         android:paddingTop="10dp"
         android:layout_height="wrap_content"
-        android:id="@+id/etNotes"
-        android:layout_below="@+id/measurements"
+        android:id="@+id/comments"
+        android:layout_below="@+id/top_layout"
         android:layout_centerHorizontal="true"
         android:hint="Additional Notes"/>
 
     <EditText
-        android:id="@+id/etNorthing"
+        android:id="@+id/latitude"
         android:layout_centerHorizontal="true"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etNotes"
+        android:layout_below="@+id/comments"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:hint="Latitude" />
@@ -158,8 +139,8 @@
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:id="@+id/etEasting"
-        android:layout_below="@+id/etNorthing"
+        android:id="@+id/longitude"
+        android:layout_below="@+id/latitude"
         android:layout_centerHorizontal="true"
         android:hint="Longitude"/>
 
@@ -170,7 +151,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etEasting"
+        android:layout_below="@+id/comments"
         android:layout_marginTop="5dp"
         android:layout_centerInParent="true">
 
@@ -218,11 +199,10 @@
         android:id="@+id/projectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/treePic"
         android:completionHint="Project Name"
-        android:text="PojectId"
-        android:layout_alignParentLeft="true" />
+        android:text="PojectId" />
 
     <AutoCompleteTextView
         android:id="@+id/treeId"
