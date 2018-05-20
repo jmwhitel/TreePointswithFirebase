@@ -1,9 +1,5 @@
 package whiteley.treepointswithfirebase;
 
-import android.app.AuthenticationRequiredException;
-import android.util.Log;
-
-import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,13 +15,18 @@ public class Tree {
     private Float latitude;
     private Float longitude;
     private String species;
-    private ArrayList notes = new ArrayList();
+    private ArrayList<String> notesArray = new ArrayList();
+    private String notes ;
     private String comments;
-    private ArrayList dbh = new ArrayList();
+    private ArrayList<Float> dbhArray = new ArrayList();
+    private String dbh ;
     private String geohash;
     private String health;
-    private Integer treeId;
-    private ArrayList images = new ArrayList();
+    private Integer treeNumber;
+    private String treeId;
+    private String projectName;
+    private String projectId;
+    private ArrayList<String> images = new ArrayList();
     private DatabaseReference treeDbRef;
     private DatabaseReference imageDbRef;
 
@@ -35,7 +36,7 @@ public class Tree {
     public Tree() {
     }
 
-    Tree(String status, String health, String grade, Float latitude, Float longitude, String species, ArrayList notes, String comments, ArrayList dbh, String geohash) {
+    Tree(String status, String health, String grade, Float latitude, Float longitude, String species, String notes, String comments, String dbh, String geohash, String projectId, String projectName, Integer treeNumber) {
         this.status = status;
         this.health = health;
         this.grade = grade;
@@ -46,9 +47,31 @@ public class Tree {
         this.comments = comments;
         this.dbh = dbh;
         this.geohash = geohash;
+        this.projectId =projectId;
+        this.projectName = projectName;
+        this.treeNumber = treeNumber;
     }
 
+    public String getProjectName(){
+        return projectName;
+    }
+    public void setProjectName(String projectName){
+        this.projectName=projectName;
+    }
 
+    public String getProjectId(){
+        return projectId;
+    }
+    public void setProjectId(String projectId){
+        this.projectId=projectId;
+    }
+
+    public Integer getTreeNumber() {
+        return treeNumber;
+    }
+    public void setTreeNumber(Integer treeNumber){
+        this.treeNumber=treeNumber;
+    }
     public String getStatus(){
         return status;
     }
@@ -97,17 +120,18 @@ public class Tree {
         this.species=species;
     }
 
-    public ArrayList getNotes() {
-        return notes;
+    public ArrayList getNotesArray() {
+        return notesArray;
     }
-    public void setNotes(ArrayList notesArray){
-        this.notes=notesArray;
+    public void setNotesArray(ArrayList notesArray){
+        this.notesArray=notesArray;
     }
     public void addNote(String note){
-        this.notes.add(note);
+        this.notesArray.add(note);
+        this.notes = notesArray.toString();
     }
     public void removeNote(String note){
-        this.notes.remove(note);
+        this.notesArray.remove(note);
     }
 
     public String getComments() {
@@ -117,18 +141,25 @@ public class Tree {
         this.comments = comments;
     }
 
-    public ArrayList getDBH(){
-        return this.dbh;
+    public ArrayList getDbhArray(){
+        return this.dbhArray;
     }
-    public void setDbh(ArrayList dbh){
-        this.dbh = dbh;
+    public void setDbhArray(ArrayList<Float> dbhArray){
+        this.dbhArray = dbhArray;
     }
-    public void addDbh(Float dbh){
-        this.dbh.add(dbh);
+    public void addDbhArray(Float dbh){
+        this.dbhArray.add(dbh);
+        this.dbh = dbhArray.toString();
     }
-    public void removeDbh(Float dbh){
-        this.dbh.remove(dbh);
+    public void removeDbhArray(Float dbh){
+        this.dbhArray.remove(dbh);
     }
+
+    public String getDbh() {return this.dbh;};
+    public void setDbh(String dbh) {this.dbh=dbh;};
+
+    public String getNotes() {return this.notes;};
+    public void setNotes(String notes) {this.notes=notes;};
 
     public String getGeohash() {
         return geohash;
@@ -143,10 +174,10 @@ public class Tree {
     }
 
 
-    public Integer getTreeId(){
+    public String getTreeId(){
         return treeId;
     }
-    public void setTreeId(Integer treeId){
+    public void setTreeId(String treeId){
         this.treeId = treeId;
     }
 
@@ -169,22 +200,45 @@ public class Tree {
         map.put("dbh", dbh);
         map.put("geohash", geohash);
         map.put("health", health);
+        map.put("projectName", projectName);
+        map.put("projectId", projectId);
+        map.put("treeNumber", treeNumber);
         return map;
     }
-    public Boolean pushToFirebase (DatabaseReference projectRef){
-            if(this.treeId == null) {
-                return false;
+    public Boolean pushToFirebase (final DatabaseReference databaseReference){
+            if(treeNumber == null) {
+               databaseReference.child("Projects").child(projectId).child("numberOfTrees").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Integer numberOfTrees = Integer.parseInt(dataSnapshot.getValue().toString()) ;
+
+                        treeNumber = numberOfTrees +1;
+                        numberOfTrees =numberOfTrees+1;
+                        treeId= projectId+"_"+treeNumber;
+                       // databaseReference.child("Projects").child(projectId).child("numberOfTrees").setValue(numberOfTrees);
+                        Map<String, Object> treeValues = toMap();
+
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/Trees/" + treeId, treeValues);
+                        childUpdates.put("/Images/" + treeId, images);
+                        childUpdates.put("/Projects/"+projectId+"/numberOfTrees",numberOfTrees);
+                        databaseReference.updateChildren(childUpdates);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                return true;
+            } else {
+                Map<String, Object> treeValues = toMap();
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/Trees/" + treeId, treeValues);
+                childUpdates.put("/Images/" + treeId, images);
+                databaseReference.updateChildren(childUpdates);
+                return true;
             }
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
-        Map<String, Object> treeValues = this.toMap();
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/Trees/" + treeId, treeValues);
-        childUpdates.put("/Images/" + treeId, images);
-
-        projectRef.updateChildren(childUpdates);
-        return true;
     }
 
 }

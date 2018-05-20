@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/projectName">
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp">
 
         <Button
             android:id="@+id/take_picture"
@@ -197,22 +198,20 @@
 
     <AutoCompleteTextView
         android:id="@+id/projectName"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/treePic"
         android:completionHint="Project Name"
-        android:text="PojectId" />
+        android:text="Poject Name" />
 
     <AutoCompleteTextView
         android:id="@+id/treeId"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:completionHint="Tree Number"
-        android:text="1"
-        android:layout_alignParentRight="true" />
+        android:layout_below="@+id/projectName"
+        android:layout_toEndOf="@+id/treePic"
+        android:text="New"/>
 
 
 </RelativeLayout>

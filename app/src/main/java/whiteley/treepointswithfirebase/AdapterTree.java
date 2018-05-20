@@ -2,10 +2,13 @@ package whiteley.treepointswithfirebase;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,13 +50,13 @@ public class AdapterTree extends ArrayAdapter<Tree>{
         public TextView display_status;
         public TextView display_rating;
         public TextView display_grade;
-        public TextView display_latitude;
-        public TextView display_longitude;
         public TextView display_species;
-        public TextView display_notes;
+        public TextView display_comments;
+        public Button update_button;
+        public Button delete_button;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         final ViewHolder holder;
         try {
@@ -64,11 +67,10 @@ public class AdapterTree extends ArrayAdapter<Tree>{
                 holder.display_status= (TextView) vi.findViewById(R.id.display_status);
                 holder.display_rating= (TextView) vi.findViewById(R.id.display_rating);
                 holder.display_grade = (TextView) vi.findViewById(R.id.display_grade);
-                holder.display_latitude = (TextView) vi.findViewById(R.id.display_latitude);
-                holder.display_longitude = (TextView) vi.findViewById(R.id.display_longitude);
                 holder.display_species = (TextView) vi.findViewById(R.id.display_species);
-                holder.display_notes= (TextView) vi.findViewById(R.id.display_notes);
-
+                holder.display_comments= (TextView) vi.findViewById(R.id.display_comments);
+                holder.update_button = (Button) vi.findViewById(R.id.btn_update_tree);
+                holder.delete_button = (Button) vi.findViewById(R.id.btn_delete_tree);
 
                 vi.setTag(holder);
             } else {
@@ -79,11 +81,22 @@ public class AdapterTree extends ArrayAdapter<Tree>{
             holder.display_status.setText(lTree.get(position).getStatus());
             holder.display_rating.setText(lTree.get(position).getHealth());
             holder.display_grade.setText(lTree.get(position).getGrade());
-            holder.display_latitude.setText(String.valueOf(lTree.get(position).getLatitude()).substring(0,6));
-            holder.display_longitude.setText(String.valueOf(lTree.get(position).getLongitude()).substring(0,6));
             holder.display_species.setText(lTree.get(position).getSpecies());
-            holder.display_notes.setText(lTree.get(position).getNotes().toString());
-
+            holder.display_comments.setText(lTree.get(position).getComments().toString());
+            holder.update_button.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(), MainActivity.class);
+                    Bundle treeInf=new Bundle();
+                    treeInf.putInt("treeNumber",lTree.get(position).getTreeNumber());
+                    treeInf.putString("treeId",lTree.get(position).getTreeId());
+                    treeInf.putString("projectId",lTree.get(position).getProjectId());
+                    treeInf.putString("projectName",lTree.get(position).getProjectName());
+                    intent.putExtras(treeInf);
+                    getContext().startActivity(intent);
+                }
+            });
         } catch (Exception e) {
 
 

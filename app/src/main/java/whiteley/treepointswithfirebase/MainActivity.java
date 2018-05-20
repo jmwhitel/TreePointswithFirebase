@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,23 +42,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnRequestLocation;
-    private Button btnTakePicture;
-    public static int count = 0;
-    static final int REQUEST_IMAGE_CAPTURE = 11;
-    private Button btnPlus;
-    private TextView textView;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    public static String DBid;
-    private Tree tree;
-    private Boolean result = false;
-    private Integer treeId;
+    //private Button btnPlus;
+    //private TextView textView;
+    //public static String DBid;
+    //public static int count = 0;
 
+    static final int REQUEST_IMAGE_CAPTURE = 11;
+    private Tree tree;
+   // private String treeId ="TestProject1_4";
+   private String treeId ;
     TextView TV1;
     EditText etLatitude, etLongitude, etComments;
     Button btnadd;
@@ -69,42 +70,26 @@ public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView acGrade;
     AutoCompleteTextView acStatus;
     AutoCompleteTextView acHealth;
+    AutoCompleteTextView acTreeId;
+    AutoCompleteTextView acProjectName;
+    Project project;
 
-    DatabaseReference databaseProjectReference;
+    DatabaseReference databaseProjectsReference;
+    DatabaseReference databaseReference;
     String projectId = "TestProject1";
+    String projectName = "Test Project 1";
+    ArrayList<String> treeNumberList = new ArrayList<>();
+    ArrayAdapter<String> treeIdAdaptor;
 
+    HashMap<String, Project> projectNameToProject = new HashMap<>();
+    HashMap<String, Project> projectIdToProject = new HashMap<>();
+    ArrayList<String> projectNames = new ArrayList<>();
+    Integer treeNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        databaseProjectReference = FirebaseDatabase.getInstance().getReference(projectId);
-
-
-        if (treeId == null) {
-            tree = new Tree();
-            getChildCount(tree, databaseProjectReference, new ChildCountInterface() {
-                @Override
-                public void onCallback(Integer value) {
-                    Log.d("TAG", value.toString());
-                    treeId = value;
-                }
-            });
-            result = tree.pushToFirebase(databaseProjectReference);
-
-        } else {
-            getTree(databaseProjectReference.child("Trees").child(treeId.toString()), new GetTreeInterface() {
-
-                @Override
-                public void onCallback(Tree treePulled) {
-                    tree=treePulled;
-                }
-            });
-        }
-        //tree.setTreeId(databaseReference.push().getKey());
-
-
         //Define the inputs
         acSpecies = (AutoCompleteTextView) (findViewById(R.id.species_spinner));
         acGrade = (AutoCompleteTextView) (findViewById(R.id.grade_spinner));
@@ -115,8 +100,136 @@ public class MainActivity extends AppCompatActivity {
         etComments = (EditText) findViewById(R.id.comments);
         etLatitude = (EditText) findViewById(R.id.latitude);
         etLongitude = (EditText) findViewById(R.id.longitude);
-
+        acTreeId = (AutoCompleteTextView) (findViewById(R.id.treeId)) ;
+        acProjectName= (AutoCompleteTextView) (findViewById(R.id.projectName));
         treePic = (ImageView) (findViewById(R.id.treePic));
+
+        /*****Check to see if any project or tree info was passed to the activity ****/
+        Intent passedIntent = getIntent();
+        if(passedIntent.hasExtra("treeId")){
+            treeId=passedIntent.getStringExtra("treeId");
+        }
+        if(passedIntent.hasExtra("treeNumber")){
+            treeNumber=passedIntent.getIntExtra("treeNumber",0);
+            acTreeId.setText(treeNumber.toString());
+        }
+        if(passedIntent.hasExtra("projectId")){
+            projectId=passedIntent.getStringExtra("projectId");
+        }
+        if(passedIntent.hasExtra("projectName")){
+            projectName=passedIntent.getStringExtra("projectName");
+            acProjectName.setText(projectName);
+        }
+
+
+
+
+        databaseProjectsReference = FirebaseDatabase.getInstance().getReference("Projects");
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+
+        /********************  Set Project drop down ************************/
+        final ValueEventListener getProjectNames = databaseProjectsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot project : dataSnapshot.getChildren()) {
+                    projectNameToProject.put(project.child("projectName").getValue().toString(), project.getValue(Project.class));
+                    projectIdToProject.put(project.getKey(), project.getValue(Project.class));
+                    projectNames.add(project.child("projectName").getValue().toString());
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ArrayAdapter projectNameAdaptor = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, projectNames);
+        acProjectName.setAdapter(projectNameAdaptor);
+        acProjectName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(projectNameToProject.containsKey(editable.toString())){
+                    project=projectNameToProject.get(editable.toString());
+                    projectName=project.getProjectName();
+                    projectId= project.getProjectId();
+                    treeNumberList=new ArrayList<>();
+                    treeNumberList.add("New");
+                    for (int i=1; i <=project.getNumberOfTrees(); i++){
+                        treeNumberList.add(Integer.toString(i));
+                    }
+                    treeIdAdaptor = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, treeNumberList);
+                    acTreeId.setAdapter(treeIdAdaptor);
+                } else{
+                    Toast.makeText(MainActivity.this, "Please select a valid project name", Toast.LENGTH_SHORT).show();
+                    projectId=null;
+                    projectName=null;
+                    treeNumberList=new ArrayList<>();
+                }
+
+            }
+        });
+        /********************  Set Tree Id drop down ************************/
+        final ValueEventListener treeNameListener = databaseProjectsReference.child(projectId).child("numberOfTrees").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer numberOfTrees = Integer.parseInt(dataSnapshot.getValue().toString()) ;
+                treeNumberList=new ArrayList<>();
+                treeNumberList.add("New");
+                for (int i=1; i <=numberOfTrees; i++){
+                    treeNumberList.add(Integer.toString(i));
+                }
+                treeIdAdaptor = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, treeNumberList);
+                acTreeId.setAdapter(treeIdAdaptor);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
+        if (treeId == null) {
+            tree = new Tree();
+            tree.setProjectName(projectName);
+            tree.setProjectId(projectId);
+// If we need to revert to deeper structure this can get the number of trees in a project... not recomended
+//            getChildCount(tree, databaseProjectsReference, new ChildCountInterface() {
+//                @Override
+//                public void onCallback(Integer value) {
+//                    Log.d("TAG", value.toString());
+//                    treeId = value;
+//                    databaseProjectsReference.child("Trees").child(treeId.toString()).child("treeId").setValue(treeId);
+//                }
+//            });
+        } else {
+            getTree(databaseReference.child("Trees").child(treeId), new GetTreeInterface() {
+
+                @Override
+                public void onCallback(Tree treePulled) {
+                    tree=treePulled;
+                    acSpecies.setText(tree.getSpecies());
+                    acGrade.setText(tree.getGrade());
+                    acStatus.setText(tree.getStatus());
+                    etComments.setText(tree.getComments());
+                    //acDBH.setText(tree.getDbh());
+                    acNote.setText(tree.getNotes());
+                    acHealth.setText(tree.getHealth());
+                }
+            });
+        }
+        //tree.setTreeId(databaseReference.push().getKey());
+
+
 
 
         /*Set input pre-set values */
@@ -132,11 +245,56 @@ public class MainActivity extends AppCompatActivity {
         acDBH.setAdapter(adapter);
         adapter = ArrayAdapter.createFromResource(this, R.array.note_options, android.R.layout.simple_spinner_item);
         acNote.setAdapter(adapter);
+        treeIdAdaptor = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, treeNumberList);
+        acTreeId.setAdapter(treeIdAdaptor);
 
 
+        //** "dumb" way to populate if an existing id is selected */
+        acTreeId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        /* add click listners  to show dropdowns on clic*/
-        /* TODO: Figure out a less repetative method of doing this */
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(final Editable editable) {
+                if(projectId!=null && isInteger(editable.toString()) ){
+                    databaseReference.child("Trees").child(projectId+"_"+editable.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()){
+                                Bundle treeInfBundle = new Bundle();
+                                treeInfBundle.putString("treeId", projectId+"_"+editable.toString());
+                                treeInfBundle.putInt("treeNumber", Integer.parseInt(editable.toString()) );
+                                treeInfBundle.putString("projectId", projectId);
+                                treeInfBundle.putString("projectName", projectName);
+                                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                intent.putExtras(treeInfBundle);
+                                startActivity(intent);
+
+                                } else {
+                                Toast.makeText(MainActivity.this, "Will create new tree", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                } else {
+                    Toast.makeText(MainActivity.this, "Will create new tree", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        /* add click listeners  to show dropdown on click*/
+        /* TODO: Figure out a less repetitive method of doing this */
         acSpecies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,9 +331,20 @@ public class MainActivity extends AppCompatActivity {
                 acNote.showDropDown();
             }
         });
+        acTreeId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acTreeId.showDropDown();
+            }
+        });
+        acProjectName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acProjectName.showDropDown();
+            }
+        });
 
-
-        /* add Text listners */
+        /* add Text listeners */
         /*TODO: Add a validation step if desired */
         acSpecies.addTextChangedListener(new TextWatcher() {
             @Override
@@ -258,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 //TODO: Make this so it doesn't just keep adding values
-                tree.addDbh(Float.valueOf(editable.toString()));
+                tree.addDbhArray(Float.valueOf(editable.toString()));
             }
         });
         acNote.addTextChangedListener(new TextWatcher() {
@@ -348,7 +517,7 @@ public class MainActivity extends AppCompatActivity {
         newdir.mkdirs();*/
 
         /* sets a listener on the Take Picture button and launches the native camera app*/
-        btnTakePicture = (Button) findViewById(R.id.take_picture);
+        Button btnTakePicture = (Button) findViewById(R.id.take_picture);
         btnTakePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -409,24 +578,41 @@ public class MainActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle treeInfBundle = new Bundle();
+                if(treeId != null) {
+                    treeInfBundle.putString("treeId", treeId);
+                }
+                if(treeNumber != null) {
+                    treeInfBundle.putInt("treeNumber", treeNumber);
+                }
+                if(projectId != null) {
+                    treeInfBundle.putString("projectId", projectId);
+                }
+                if(projectName != null) {
+                    treeInfBundle.putString("projectName", projectName);
+                }
                 switch (item.getItemId()) {
                     case R.id.home:
                         Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.putExtras(treeInfBundle);
                         startActivity(intent);
 
                         break;
 
                     case R.id.viewTree:
                         Intent intent1 = new Intent(MainActivity.this, TreeDBViewer.class);
+                        intent1.putExtras(treeInfBundle);
                         startActivity(intent1);
 
                         break;
 
                     case R.id.viewMap:
                         Intent intent2 = new Intent(MainActivity.this, MapViewer.class);
+                        intent2.putExtras(treeInfBundle);
                         startActivity(intent2);
 
                         break;
@@ -454,7 +640,7 @@ public class MainActivity extends AppCompatActivity {
                 tree.setTreeId(treeId);
             }
         }
-        result = tree.pushToFirebase(databaseProjectReference);
+        Boolean result = tree.pushToFirebase(databaseReference);
 
         if (result) {
             Toast.makeText(MainActivity.this, "Tree Created Successfully", Toast.LENGTH_SHORT).show();
@@ -491,7 +677,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getChildCount(Tree tree, DatabaseReference databaseReference, final ChildCountInterface callBack) {
-        databaseReference.child("Trees").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Trees").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.e("Count of Children ", "" + snapshot.getChildrenCount());
@@ -518,10 +704,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getTree(DatabaseReference databaseReference, final GetTreeInterface callBack) {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Tree tree = snapshot.getValue(Tree.class);
+                tree = snapshot.getValue(Tree.class);
                 callBack.onCallback(tree);
             }
 
@@ -530,6 +716,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("The read failed: ", databaseError.getMessage());
             }
         });
+    }
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
     }
 }
 
