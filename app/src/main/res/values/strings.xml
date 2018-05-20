@@ -1,4 +1,9 @@
 <resources>
+
+    <!-- Firebase messages -->
+    <string name="auth_failed">Failed to Authenticate</string>
+    <string name="auth_success">Authentication Success</string>
+
     <string name="app_name">TreePointswithFirebase</string>
     <string name="google_Maps_Api_Key">AIzaSyCAVbYMXWUN39jWloP7NLDgeJhxvl0dGsg</string>
     <string-array name="tree_spinner_options">
