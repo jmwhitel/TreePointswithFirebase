@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         hideSoftKeyboard();
         setupFirebaseAuth();
+       // mAuth.signOut();
 
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
