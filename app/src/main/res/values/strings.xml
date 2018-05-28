@@ -1,4 +1,14 @@
 <resources>
+
+    <!-- Firebase messages -->
+    <string name="auth_failed">Failed to Authenticate</string>
+    <string name="auth_success">Authentication Success</string>
+
+    <!-- Firebase database fields -->
+    <string name="dbname_users">User</string>
+    <string name="dbname_user_projects">UserProjects</string>
+
+
     <string name="app_name">TreePointswithFirebase</string>
     <string name="google_Maps_Api_Key">AIzaSyCAVbYMXWUN39jWloP7NLDgeJhxvl0dGsg</string>
     <string name="species_hint">Species Name</string>

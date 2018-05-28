@@ -1,9 +1,15 @@
 package whiteley.treepointswithfirebase;
 
 import android.Manifest;
-
 import android.graphics.Bitmap;
-
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.nfc.Tag;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomNavigationView;
 import android.content.pm.PackageManager;
@@ -25,6 +31,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -33,9 +41,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -43,6 +54,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import whiteley.treepointswithfirebase.Login.LoginActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -59,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
     private Tree tree;
    // private String treeId ="TestProject1_4";
    private String treeId ;
+    public static String DBid;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseDatabase database;
+
+    private Context mContext = MainActivity.this;
+    private static final String TAG = "MainActivity";
+
     TextView TV1;
     EditText etLatitude, etLongitude, etComments;
     Button btnadd;
@@ -120,6 +141,10 @@ public class MainActivity extends AppCompatActivity {
             projectName=passedIntent.getStringExtra("projectName");
             acProjectName.setText(projectName);
         }
+        database = FirebaseDatabase.getInstance();
+        hideSoftKeyboard();
+        setupFirebaseAuth();
+       // mAuth.signOut();
 
 
 
@@ -642,6 +667,8 @@ public class MainActivity extends AppCompatActivity {
         }
         Boolean result = tree.pushToFirebase(databaseReference);
 
+
+
         if (result) {
             Toast.makeText(MainActivity.this, "Tree Created Successfully", Toast.LENGTH_SHORT).show();
         } else {
@@ -728,7 +755,65 @@ public class MainActivity extends AppCompatActivity {
         // only got here if we didn't return false
         return true;
     }
-}
+
+    private void hideSoftKeyboard(){
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
 
 
+    /**
+     * checks to see if the @param 'user' is logged in
+     * @param user
+     */
+    private void checkCurrentUser(FirebaseUser user){
+        Log.d(TAG, "checkCurrentUser: checking if user is logged in.");
+
+        if(user == null){
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+    /**
+     * Setup the firebase auth object
+     */
+    private void setupFirebaseAuth(){
+        Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                //check if the user is logged in
+                checkCurrentUser(user);
+
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+        checkCurrentUser(mAuth.getCurrentUser());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+
+        }   }
+    }
 
