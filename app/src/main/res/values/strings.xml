@@ -10,7 +10,6 @@
 
 
     <string name="app_name">TreePointswithFirebase</string>
-    <string name="google_Maps_Api_Key">AIzaSyCAVbYMXWUN39jWloP7NLDgeJhxvl0dGsg</string>
     <string name="species_hint">Species Name</string>
     <string name="dbh_hint">DBH Value</string>
     <string name="health_hint">Health Rating</string>
