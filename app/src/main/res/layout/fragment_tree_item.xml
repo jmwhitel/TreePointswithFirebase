@@ -84,48 +84,16 @@
             android:layout_toRightOf="@+id/label_grade"
             android:text=" " />
 
-        <TextView
-            android:id="@+id/label_lat"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/label_grade"
-            android:layout_below="@+id/label_grade"
-            android:text="Latitude:" />
 
         <TextView
-            android:id="@+id/display_latitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/display_grade"
-            android:layout_toRightOf="@+id/label_lat"
-            android:text=" " />
-
-        <TextView
-            android:id="@+id/label_lon"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/label_lat"
-            android:layout_below="@+id/label_lat"
-            android:text="Longitude" />
-
-        <TextView
-            android:id="@+id/display_longitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/display_latitude"
-            android:layout_toRightOf="@+id/label_lon"
-            android:text=" " />
-
-
-        <TextView
-            android:id="@+id/display_notes"
-            android:layout_width="195dp"
+            android:id="@+id/display_comments"
+            android:layout_width="123dp"
             android:layout_height="48dp"
             android:layout_alignEnd="@+id/btn_delete_tree"
+            android:layout_alignRight="@+id/btn_delete_tree"
             android:layout_alignTop="@+id/label_status"
             android:background="@drawable/background_black_border"
-            android:text=" "
-            android:layout_alignRight="@+id/btn_delete_tree" />
+            android:text=" " />
 
         <Button
             android:id="@+id/btn_update_tree"
@@ -137,7 +105,7 @@
             android:text="Update"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_notes" />
+            app:layout_constraintTop_toBottomOf="@+id/display_comments" />
 
         <Button
             android:id="@+id/btn_delete_tree"
@@ -150,7 +118,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_update_tree"
             app:layout_constraintStart_toEndOf="@+id/display_species"
-            app:layout_constraintTop_toBottomOf="@+id/display_notes" />
+            app:layout_constraintTop_toBottomOf="@+id/display_comments" />
 
 
     </RelativeLayout>

@@ -1,6 +1,10 @@
 *.iml
 .gradle
 /local.properties
+<<<<<<< HEAD
+/.idea
+=======
+>>>>>>> origin/develop
 /.idea/
 /.idea/workspace.xml
 /.idea/libraries
