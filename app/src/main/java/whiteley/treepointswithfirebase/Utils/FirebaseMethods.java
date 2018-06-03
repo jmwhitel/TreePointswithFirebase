@@ -68,14 +68,12 @@ public class FirebaseMethods {
 
     /**
      * Register a new email and password to Firebase Authentication
-     *
      * @param email
      * @param password
      * @param username
      */
 
-
-    public void registerNewEmail(final String email, String password, final String username) {
+    public void registerNewEmail(final String email, String password, final String username){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -89,17 +87,19 @@ public class FirebaseMethods {
                             Toast.makeText(mContext, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
 
-                        } else if (task.isSuccessful()) {
-
+                        }
+                        else if(task.isSuccessful()){
+                            //send verificaton email
                             sendVerificationEmail();
 
-                                userID = mAuth.getCurrentUser().getUid();
+                            userID = mAuth.getCurrentUser().getUid();
                             Log.d(TAG, "onComplete: Authstate changed: " + userID);
                         }
 
                     }
                 });
     }
+
 
     public void sendVerificationEmail(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

@@ -1,5 +1,6 @@
 package whiteley.treepointswithfirebase;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +17,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,13 +32,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import whiteley.treepointswithfirebase.Login.LoginActivity;
+
 
 public class TreeDBViewer extends AppCompatActivity {
     private static final String TAG = "Tree Viewer";
     private ListView listView;
     FirebaseDatabase database;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
     private ArrayList<Tree> mTreeList = new ArrayList<>();
+    private Context mContext = TreeDBViewer.this;
     DatabaseReference databaseTreeReference;
     DatabaseReference databaseProjectsReference;
     String projectId;
@@ -46,6 +55,8 @@ public class TreeDBViewer extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         setContentView(R.layout.activity_tree_viewer);
         acProjectNames = (AutoCompleteTextView) findViewById(R.id.projectName);
@@ -116,7 +127,7 @@ public class TreeDBViewer extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
+        MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -146,6 +157,10 @@ public class TreeDBViewer extends AppCompatActivity {
                         intent2.putExtras(projectInfBundle);
                         startActivity(intent2);
 
+                        break;
+
+                    case R.id.signOut:
+                        //mAuth.signOut();
                         break;
                 }
 
@@ -187,6 +202,6 @@ public class TreeDBViewer extends AppCompatActivity {
             }
         });
     }
-}
 
+}
 

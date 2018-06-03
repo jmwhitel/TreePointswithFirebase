@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         hideSoftKeyboard();
         setupFirebaseAuth();
-       // mAuth.signOut();
+        //mAuth.signOut();
 
 
 
@@ -600,7 +600,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(2);
+        MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
 
@@ -641,6 +641,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent2);
 
                         break;
+
+                    case R.id.signOut:
+                        mAuth.signOut();
+                        break;
+
 
                 }
 

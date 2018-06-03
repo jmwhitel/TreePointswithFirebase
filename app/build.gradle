@@ -6,7 +6,7 @@ android {
         applicationId "whiteley.treepointswithfirebase"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 2
+        versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -39,6 +39,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:15.0.0'
     implementation "com.google.android.gms:play-services-location:15.0.0"
     implementation 'com.google.firebase:firebase-auth:15.0.0'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
 
 
 }
