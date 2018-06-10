@@ -17,6 +17,9 @@
     <string name="status_hint">Status</string>
     <string name="m1_hint">m1</string>
     <string name="notes_hint">Notes</string>
+    <string name="project_name">Project Name</string>
+    <string name="new_tree">New Tree</string>
+    <string name="additional_notes">Additional Notes</string>
 
     <string-array name="species_options">
         <item name="pine">Pine</item>

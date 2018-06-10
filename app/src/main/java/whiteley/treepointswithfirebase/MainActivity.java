@@ -1,29 +1,21 @@
 package whiteley.treepointswithfirebase;
 
 import android.Manifest;
-import android.graphics.Bitmap;
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.nfc.Tag;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.design.widget.BottomNavigationView;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -32,21 +24,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -60,27 +49,14 @@ import whiteley.treepointswithfirebase.Login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnRequestLocation;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    //private Button btnPlus;
-    //private TextView textView;
-    //public static String DBid;
-    //public static int count = 0;
-
     static final int REQUEST_IMAGE_CAPTURE = 11;
     private Tree tree;
-   // private String treeId ="TestProject1_4";
-   private String treeId ;
-    public static String DBid;
+    private String treeId ;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    FirebaseDatabase database;
 
     private Context mContext = MainActivity.this;
     private static final String TAG = "MainActivity";
-
-    TextView TV1;
     EditText etLatitude, etLongitude, etComments;
     Button btnadd;
     ArrayAdapter adapter;
@@ -95,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView acProjectName;
     Project project;
 
+    FirebaseDatabase database;
     DatabaseReference databaseProjectsReference;
     DatabaseReference databaseReference;
     String projectId = "TestProject1";
@@ -110,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tree_editor);
         //Define the inputs
         acSpecies = (AutoCompleteTextView) (findViewById(R.id.species_spinner));
         acGrade = (AutoCompleteTextView) (findViewById(R.id.grade_spinner));
@@ -119,13 +96,11 @@ public class MainActivity extends AppCompatActivity {
         acDBH = (AutoCompleteTextView) (findViewById(R.id.dbh_spinner));
         acNote = (AutoCompleteTextView) (findViewById(R.id.notes_spinner));
         etComments = (EditText) findViewById(R.id.comments);
-        etLatitude = (EditText) findViewById(R.id.latitude);
-        etLongitude = (EditText) findViewById(R.id.longitude);
         acTreeId = (AutoCompleteTextView) (findViewById(R.id.treeId)) ;
         acProjectName= (AutoCompleteTextView) (findViewById(R.id.projectName));
         treePic = (ImageView) (findViewById(R.id.treePic));
 
-        /*****Check to see if any project or tree info was passed to the activity ****/
+        /*Check to see if any project or tree info was passed to the activity*/
         Intent passedIntent = getIntent();
         if(passedIntent.hasExtra("treeId")){
             treeId=passedIntent.getStringExtra("treeId");
@@ -144,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         hideSoftKeyboard();
         setupFirebaseAuth();
-       // mAuth.signOut();
+        mAuth.signOut();
 
 
 
@@ -153,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
-        /********************  Set Project drop down ************************/
+        /*  Set Project drop down */
         final ValueEventListener getProjectNames = databaseProjectsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -246,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                     acGrade.setText(tree.getGrade());
                     acStatus.setText(tree.getStatus());
                     etComments.setText(tree.getComments());
-                    //acDBH.setText(tree.getDbh());
+                    acDBH.setText(tree.getDbh());
                     acNote.setText(tree.getNotes());
                     acHealth.setText(tree.getHealth());
                 }
@@ -452,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 //TODO: Make this so it doesn't just keep adding values
-                tree.addDbhArray(Float.valueOf(editable.toString()));
+                tree.setDbh(editable.toString());
             }
         });
         acNote.addTextChangedListener(new TextWatcher() {
@@ -469,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 //TODO: Make this so it doesn't just keep adding values
-                tree.addNote(editable.toString());
+                tree.setNotes(editable.toString());
             }
         });
         acNote.addTextChangedListener(new TextWatcher() {
@@ -486,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 //TODO: Make this so it doesn't just keep adding values
-                tree.addNote(editable.toString());
+                tree.setNotes(editable.toString());
             }
         });
         etComments.addTextChangedListener(new TextWatcher() {
@@ -505,41 +480,6 @@ public class MainActivity extends AppCompatActivity {
                 tree.setComments(editable.toString());
             }
         });
-        etLatitude.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                tree.setLatitude(Float.parseFloat(editable.toString()));
-            }
-        });
-        etLongitude.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                tree.setLongitude(Float.parseFloat(editable.toString()));
-            }
-        });
-        /*        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-        File newdir = new File(dir);
-        newdir.mkdirs();*/
 
         /* sets a listener on the Take Picture button and launches the native camera app*/
         Button btnTakePicture = (Button) findViewById(R.id.take_picture);
@@ -552,37 +492,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        btnRequestLocation = (Button) findViewById(R.id.btnRequestLocation);
-        final TextView textview1 = (TextView) findViewById(R.id.latitude);
-        final TextView textview2 = (TextView) findViewById(R.id.longitude);
-
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                textview1.append("" + location.getLatitude());
-                textview2.append("" + location.getLongitude());
-
-            }
-
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        };
         /* Checks access permissions for GPS location*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -763,7 +672,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * checks to see if the @param 'user' is logged in
-     * @param user
+     * @param user: the user id string
      */
     private void checkCurrentUser(FirebaseUser user){
         Log.d(TAG, "checkCurrentUser: checking if user is logged in.");

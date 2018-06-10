@@ -6,19 +6,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Tree {
     private String status;
     private String grade;
-    private Float latitude;
-    private Float longitude;
+    private Double latitude;
+    private Double longitude;
     private String species;
-    private ArrayList<String> notesArray = new ArrayList();
     private String notes ;
     private String comments;
-    private ArrayList<Float> dbhArray = new ArrayList();
+    private Double dbhTotal;
     private String dbh ;
     private String geohash;
     private String health;
@@ -36,7 +37,7 @@ public class Tree {
     public Tree() {
     }
 
-    Tree(String status, String health, String grade, Float latitude, Float longitude, String species, String notes, String comments, String dbh, String geohash, String projectId, String projectName, Integer treeNumber) {
+    Tree(String status, String health, String grade, Double latitude, Double longitude, String species, String notes, String comments, String dbh, Double dbhTotal, String geohash, String projectId, String projectName, Integer treeNumber) {
         this.status = status;
         this.health = health;
         this.grade = grade;
@@ -46,6 +47,7 @@ public class Tree {
         this.notes = notes;
         this.comments = comments;
         this.dbh = dbh;
+        this.dbhTotal = dbhTotal;
         this.geohash = geohash;
         this.projectId =projectId;
         this.projectName = projectName;
@@ -93,21 +95,21 @@ public class Tree {
         this.grade =grade;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude=latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
-    public void setLongitude(Float longitude){
+    public void setLongitude(Double longitude){
         this.longitude=longitude;
     }
 
-    public void setLocation(Float latitude, Float longitude){
+    public void setLocation(Double latitude, Double longitude){
         this.latitude=latitude;
         this.longitude=longitude;
         //TODO: use this to add geohash functionality: https://github.com/kungfoo/geohash-java
@@ -120,19 +122,6 @@ public class Tree {
         this.species=species;
     }
 
-    public ArrayList getNotesArray() {
-        return notesArray;
-    }
-    public void setNotesArray(ArrayList notesArray){
-        this.notesArray=notesArray;
-    }
-    public void addNote(String note){
-        this.notesArray.add(note);
-        this.notes = notesArray.toString();
-    }
-    public void removeNote(String note){
-        this.notesArray.remove(note);
-    }
 
     public String getComments() {
         return comments;
@@ -141,22 +130,20 @@ public class Tree {
         this.comments = comments;
     }
 
-    public ArrayList getDbhArray(){
-        return this.dbhArray;
-    }
-    public void setDbhArray(ArrayList<Float> dbhArray){
-        this.dbhArray = dbhArray;
-    }
-    public void addDbhArray(Float dbh){
-        this.dbhArray.add(dbh);
-        this.dbh = dbhArray.toString();
-    }
-    public void removeDbhArray(Float dbh){
-        this.dbhArray.remove(dbh);
-    }
 
     public String getDbh() {return this.dbh;};
-    public void setDbh(String dbh) {this.dbh=dbh;};
+    public void setDbh(String dbh) {
+        this.dbh=dbh;
+        this.dbhTotal=sumDbhValues(dbh);
+    };
+    private  Double sumDbhValues(String dbh){
+        Double sumOfDbh = 0.0;
+        List<String> dbhList = Arrays.asList(dbh.split(","));
+        for (String value : dbhList) {
+            sumOfDbh += Double.valueOf(value);
+        }
+        return sumOfDbh;
+    }
 
     public String getNotes() {return this.notes;};
     public void setNotes(String notes) {this.notes=notes;};
