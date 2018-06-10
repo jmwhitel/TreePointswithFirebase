@@ -9,3 +9,7 @@
 /build
 /captures
 .externalNativeBuild
+./app/src/main/res/values/secret.xml
+/secret.xml
+app/src/main/res/values/secret.xml
+.idea/modules.xml
