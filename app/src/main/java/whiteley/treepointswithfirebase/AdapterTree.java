@@ -87,7 +87,7 @@ public class AdapterTree extends ArrayAdapter<Tree>{
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(getContext(), MainActivity.class);
+                    intent.setClass(getContext(), TreeEditorActivity.class);
                     Bundle treeInf=new Bundle();
                     treeInf.putInt("treeNumber",lTree.get(position).getTreeNumber());
                     treeInf.putString("treeId",lTree.get(position).getTreeId());

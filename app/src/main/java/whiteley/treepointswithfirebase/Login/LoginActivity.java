@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -22,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-import whiteley.treepointswithfirebase.MainActivity;
+import whiteley.treepointswithfirebase.TreeEditorActivity;
 import whiteley.treepointswithfirebase.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mPleaseWait.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
+
+        hideSoftKeyboard();
 
         setupFirebaseAuth();
         init();
@@ -114,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                                         try{
                                             if(user.isEmailVerified()){
                                                 Log.d(TAG, "onComplete: success. email is verified.");
-                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                Intent intent = new Intent(LoginActivity.this, TreeEditorActivity.class);
                                                 startActivity(intent);
                                             }else{
                                                 Toast.makeText(mContext, "Email is not verified \n check your email inbox.", Toast.LENGTH_SHORT).show();
@@ -147,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(mAuth.getCurrentUser() != null){
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, TreeEditorActivity.class);
             startActivity(intent);
             finish();
         }
@@ -190,5 +193,9 @@ public class LoginActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    private void hideSoftKeyboard(){
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }

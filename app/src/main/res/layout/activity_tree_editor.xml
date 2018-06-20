@@ -16,6 +16,7 @@
         app:alignItems="stretch"
         app:flexDirection="row"
         app:flexWrap="wrap"
+        app:justifyContent="center"
         app:layout_minHeight="50dp">
 
         <AutoCompleteTextView
@@ -40,16 +41,18 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:background="@drawable/background_black_border">
 
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:orientation="vertical"
             android:weightSum=".5"
-            app:flexWrap="wrap">
+            app:flexDirection="row"
+            app:flexWrap="wrap"
+            app:justifyContent="center">
 
 
             <AutoCompleteTextView
@@ -57,12 +60,6 @@
                 style="@style/treeAutoCompleteStyle"
                 android:completionHint="@string/species_hint"
                 android:hint="@string/species_hint" />
-
-            <MultiAutoCompleteTextView
-                android:id="@+id/dbh_spinner"
-                style="@style/treeAutoCompleteStyle"
-                android:completionHint="@string/dbh_hint"
-                android:hint="@string/dbh_hint" />
 
             <AutoCompleteTextView
                 android:id="@+id/health_spinner"
@@ -82,12 +79,117 @@
                 style="@style/treeAutoCompleteStyle"
                 android:completionHint="@string/status_hint"
                 android:hint="@string/status_hint" />
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/dbh_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum=".5"
+                app:flexDirection="row"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_dbh_values" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner1"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner2"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner3"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner4"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner5"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner6"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner7"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner8"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner9"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/dbh_spinner10"
+                    style="@style/treeAutoCompleteStyle"
+                    android:completionHint="@string/dbh_hint"
+                    android:hint="@string/dbh_hint"
+                    android:visibility="gone"
+                    app:layout_maxWidth="100dp"
+                    app:layout_minWidth="25dp" />
+
+            </com.google.android.flexbox.FlexboxLayout>
 
             <MultiAutoCompleteTextView
                 android:id="@+id/notes_spinner"
                 style="@style/treeAutoCompleteStyle"
+                android:layout_width="match_parent"
                 android:completionHint="@string/notes_hint"
                 android:hint="@string/notes_hint" />
+
 
         </com.google.android.flexbox.FlexboxLayout>
     </ScrollView>
@@ -98,7 +200,8 @@
         android:layout_height="75dp"
         android:hint="@string/additional_notes"
         android:inputType="text"
-        android:paddingTop="10dp" />
+        android:paddingTop="10dp"
+        app:layout_minHeight="75dp" />
 
 
     <com.google.android.flexbox.FlexboxLayout
@@ -111,7 +214,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:alignContent="stretch"
-            app:justifyContent="center">
+            app:justifyContent="center"
+            app:layout_minHeight="100dp">
 
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="wrap_content"
@@ -122,16 +226,18 @@
                 <Button
                     android:id="@+id/take_picture"
                     android:layout_width="125dp"
-                    android:layout_height="75dp"
+                    android:layout_height="50dp"
                     android:drawableLeft="@android:drawable/ic_menu_camera"
-                    android:text="Take Picture" />
+                    android:text="Take Picture"
+                    android:textSize="12dp" />
 
                 <Button
                     android:id="@+id/view_pictures"
                     android:layout_width="125dp"
-                    android:layout_height="75dp"
+                    android:layout_height="50dp"
                     android:drawableLeft="@drawable/ic_camera_roll_black_24dp"
-                    android:text="View Photos" />
+                    android:text="View Photos"
+                    android:textSize="12dp" />
             </com.google.android.flexbox.FlexboxLayout>
 
             <ImageView
@@ -156,6 +262,7 @@
         android:drawableLeft="@drawable/ic_cloud_upload_black_24dp"
         android:drawableStart="@drawable/ic_cloud_upload_black_24dp"
         android:onClick="btnAddToDatabase"
+        android:paddingLeft="20dp"
         android:text="Add to Database"
         app:layout_minHeight="50dp" />
 

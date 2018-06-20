@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -59,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         initWidgets();
         setupFirebaseAuth();
         init();
+        hideSoftKeyboard();
     }
 
     private void init(){
@@ -73,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                    mProgressBar.setVisibility(View.VISIBLE);
                    loadingPleaseWait.setVisibility(View.VISIBLE);
 
-                   firebaseMethods.registerNewEmail(email, username, password);
+                   firebaseMethods.registerNewEmail(email, password, username);
                }
            }
        });
@@ -95,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.input_email);
         btnRegister = (Button) findViewById(R.id.btn_register);
         mUsername = (EditText) findViewById(R.id.input_username);
-        mPassword = (EditText) findViewById(R.id.input_password);
+        mPassword = (EditText) findViewById(R.id.input_password2);
         mContext = RegisterActivity.this;
         mProgressBar.setVisibility(View.GONE);
         loadingPleaseWait.setVisibility(View.GONE);
@@ -141,7 +143,11 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                             username = username + append;
 
-                            firebaseMethods.addNewUser(email, username,projectName);
+                            firebaseMethods.addNewUser(email, username,"");
+
+                            Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
+
+                            mAuth.signOut();
 
                         }
 
@@ -150,6 +156,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                         }
                     });
+
+                    finish();
 
                 } else {
                     // User is signed out
@@ -172,6 +180,9 @@ public class RegisterActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+    private void hideSoftKeyboard(){
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }
 

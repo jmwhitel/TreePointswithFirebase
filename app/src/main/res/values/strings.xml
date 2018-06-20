@@ -20,6 +20,7 @@
     <string name="project_name">Project Name</string>
     <string name="new_tree">New Tree</string>
     <string name="additional_notes">Additional Notes</string>
+    <string name="add_dbh_values">Add DBH values (up to 10)</string>
 
     <string-array name="species_options">
         <item name="pine">Pine</item>

@@ -3,6 +3,7 @@ package whiteley.treepointswithfirebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Logger;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class Tree {
     private String treeId;
     private String projectName;
     private String projectId;
-    private ArrayList<String> images = new ArrayList();
+    private List<String> images = new ArrayList<>();
     private DatabaseReference treeDbRef;
     private DatabaseReference imageDbRef;
 
@@ -134,9 +135,23 @@ public class Tree {
     public String getDbh() {return this.dbh;};
     public void setDbh(String dbh) {
         this.dbh=dbh;
-        this.dbhTotal=sumDbhValues(dbh);
+        this.dbhTotal=sumDbhStringValues(dbh);
     };
-    private  Double sumDbhValues(String dbh){
+    public void setDbhArray(List<Double> dbhArray){
+        String dbhString = "";
+        Double dbhSum =0.0;
+        for(Double dbhValue : dbhArray){
+            if(dbhString!=""){
+                dbhString+= ", " + dbhValue.toString();
+            } else {
+                dbhString+= dbhValue.toString();
+            }
+            dbhSum += dbhValue;
+        }
+        this.dbh=dbhString;
+        this.dbhTotal = dbhSum;
+    }
+    private  Double sumDbhStringValues(String dbh){
         Double sumOfDbh = 0.0;
         List<String> dbhList = Arrays.asList(dbh.split(","));
         for (String value : dbhList) {
@@ -144,6 +159,20 @@ public class Tree {
         }
         return sumOfDbh;
     }
+    public List<Double> getDbhArray(){
+        List<String> dbhStringArray =  Arrays.asList(dbh.split(","));
+        List<Double> dbhArray = new ArrayList<>();
+        for (String dbhString: dbhStringArray){
+            try {
+                dbhArray.add(Double.parseDouble(dbhString));
+            } catch (NumberFormatException e){
+             //TODo add a warning that the values weren't double
+            }
+        }
+        return dbhArray;
+    }
+
+
 
     public String getNotes() {return this.notes;};
     public void setNotes(String notes) {this.notes=notes;};
@@ -168,7 +197,7 @@ public class Tree {
         this.treeId = treeId;
     }
 
-    public void setImages(ArrayList imagesEncoded){
+    public void setImages(List imagesEncoded){
         this.images = imagesEncoded;
     }
     public void addImage(String imageEncoded){
@@ -185,6 +214,7 @@ public class Tree {
         map.put("notes", notes);
         map.put("comments", comments);
         map.put("dbh", dbh);
+        map.put("dbhTotal", dbhTotal);
         map.put("geohash", geohash);
         map.put("health", health);
         map.put("projectName", projectName);

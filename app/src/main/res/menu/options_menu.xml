@@ -2,21 +2,32 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="Home"
-        app:showAsAction="always" />
 
     <item
-        android:id="@+id/viewTree"
-        android:icon="@drawable/ic_nature_black_24dp"
+        android:id="@+id/viewTreePhoto"
+        android:icon="@drawable/ic_camera_roll_black_24dp"
         android:title="View Tree"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/viewTree"
+        android:icon="@drawable/ic_list_black_24dp"
+        android:title="View Tree"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="Home"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/viewMap"
         android:icon="@drawable/ic_add_location_black_24dp"
         android:title="View Map"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/signOut"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="Log Out"
         app:showAsAction="always"/>
 </menu>
