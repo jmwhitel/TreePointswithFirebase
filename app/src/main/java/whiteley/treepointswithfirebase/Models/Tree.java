@@ -1,9 +1,18 @@
-package whiteley.treepointswithfirebase;
+package whiteley.treepointswithfirebase.Models;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
+import android.util.Base64;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Logger;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -28,9 +37,8 @@ public class Tree {
     private String treeId;
     private String projectName;
     private String projectId;
+    private Integer numberOfImages;
     private List<String> images = new ArrayList<>();
-    private DatabaseReference treeDbRef;
-    private DatabaseReference imageDbRef;
 
 
     // Required default constructor for Firebase object mapping
@@ -38,7 +46,8 @@ public class Tree {
     public Tree() {
     }
 
-    Tree(String status, String health, String grade, Double latitude, Double longitude, String species, String notes, String comments, String dbh, Double dbhTotal, String geohash, String projectId, String projectName, Integer treeNumber) {
+    Tree(String treeId, String status, String health, String grade, Double latitude, Double longitude, String species, String notes, String comments, String dbh, Double dbhTotal, Integer numberOfImages, String geohash, String projectId, String projectName, Integer treeNumber) {
+        this.treeId = treeId;
         this.status = status;
         this.health = health;
         this.grade = grade;
@@ -49,6 +58,7 @@ public class Tree {
         this.comments = comments;
         this.dbh = dbh;
         this.dbhTotal = dbhTotal;
+        this.numberOfImages = numberOfImages;
         this.geohash = geohash;
         this.projectId =projectId;
         this.projectName = projectName;
@@ -103,12 +113,20 @@ public class Tree {
         this.latitude=latitude;
     }
 
+    public Integer getNumberOfImages() {
+        return numberOfImages;
+    }
+    public void setNumberOfImages(Integer numberOfImages){
+        this.numberOfImages= numberOfImages;
+    }
+
     public Double getLongitude() {
         return longitude;
     }
     public void setLongitude(Double longitude){
         this.longitude=longitude;
     }
+
 
     public void setLocation(Double latitude, Double longitude){
         this.latitude=latitude;
@@ -138,17 +156,17 @@ public class Tree {
         this.dbhTotal=sumDbhStringValues(dbh);
     };
     public void setDbhArray(List<Double> dbhArray){
-        String dbhString = "";
+        StringBuilder dbhString = new StringBuilder();
         Double dbhSum =0.0;
         for(Double dbhValue : dbhArray){
-            if(dbhString!=""){
-                dbhString+= ", " + dbhValue.toString();
+            if(!dbhString.toString().equals("")){
+                dbhString.append(", ").append(dbhValue.toString());
             } else {
-                dbhString+= dbhValue.toString();
+                dbhString.append(dbhValue.toString());
             }
             dbhSum += dbhValue;
         }
-        this.dbh=dbhString;
+        this.dbh= dbhString.toString();
         this.dbhTotal = dbhSum;
     }
     private  Double sumDbhStringValues(String dbh){
@@ -173,6 +191,12 @@ public class Tree {
     }
 
 
+    public Double getDbhTotal() {
+        return dbhTotal;
+    }
+    public void setDbhTotal(Double dbhTotal){
+        this.dbhTotal = dbhTotal;
+    }
 
     public String getNotes() {return this.notes;};
     public void setNotes(String notes) {this.notes=notes;};
@@ -199,9 +223,11 @@ public class Tree {
 
     public void setImages(List imagesEncoded){
         this.images = imagesEncoded;
+        setNumberOfImages(this.images.size());
     }
     public void addImage(String imageEncoded){
         this.images.add(imageEncoded);
+        setNumberOfImages(this.images.size());
     }
 
     public HashMap<String, Object> toMap() {
@@ -215,6 +241,7 @@ public class Tree {
         map.put("comments", comments);
         map.put("dbh", dbh);
         map.put("dbhTotal", dbhTotal);
+        map.put("numberOfImages", numberOfImages);
         map.put("geohash", geohash);
         map.put("health", health);
         map.put("projectName", projectName);
@@ -257,7 +284,36 @@ public class Tree {
                 return true;
             }
     }
+    public void addTreeImagesToContainer(final LinearLayout container) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference treeImageReference = database.getReference().child("Images").child(treeId);
+        if (numberOfImages > 0) {
+            treeImageReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot imageSnapshot : dataSnapshot.getChildren()) {
+                        String image = (String) imageSnapshot.getValue();
+                        byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        ImageView imageView = new ImageView(container.getContext());
+                        imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
+                        imageView.setImageBitmap(decodedByte);
+                        container.addView(imageView);
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            TextView textView = new TextView(container.getContext());
+            textView.setText("No Image Available");
+            container.addView(textView);
+        }
+    }
 }
 
 

@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import whiteley.treepointswithfirebase.Models.Tree;
+
 
 public class TreeDBViewer extends AppCompatActivity {
     private static final String TAG = "Tree Viewer";
@@ -175,7 +177,7 @@ public class TreeDBViewer extends AppCompatActivity {
         projectTrees.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i(TAG,"on child add data snapshot: "+dataSnapshot.getKey());
+
 
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -183,7 +185,7 @@ public class TreeDBViewer extends AppCompatActivity {
                     tree.setTreeId(snapshot.getKey());
                     listOfTrees.add(tree);
                 }
-
+                Log.i(TAG,"before Adaptor");
                 AdapterTree adbTree= new AdapterTree (TreeDBViewer.this, 0, listOfTrees);
                 listView.setAdapter(adbTree);
 

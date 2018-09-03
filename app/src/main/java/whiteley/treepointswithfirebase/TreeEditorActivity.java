@@ -19,12 +19,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
@@ -42,6 +44,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import whiteley.treepointswithfirebase.Login.LoginActivity;
+import whiteley.treepointswithfirebase.Models.Project;
+import whiteley.treepointswithfirebase.Models.Tree;
 
 
 public class TreeEditorActivity extends AppCompatActivity {
@@ -76,6 +80,7 @@ public class TreeEditorActivity extends AppCompatActivity {
     AutoCompleteTextView acProjectName;
     ArrayList<AutoCompleteTextView> dbhAutocompletes;
     ArrayList<AutoCompleteTextView> uiAutocompletes;
+    LinearLayout imageContainer;
 
     Project project;
 
@@ -115,6 +120,7 @@ public class TreeEditorActivity extends AppCompatActivity {
         acDBH10 = findViewById(R.id.dbh_spinner10);
         acNote = findViewById(R.id.notes_spinner);
         etComments = findViewById(R.id.comments);
+        imageContainer = findViewById(R.id.imageContainer);
 
         uiAutocompletes = new ArrayList<>();
         uiAutocompletes.add(acSpecies);
@@ -147,8 +153,6 @@ public class TreeEditorActivity extends AppCompatActivity {
         dbhAutocompletes.add(acDBH8);
         dbhAutocompletes.add(acDBH9);
         dbhAutocompletes.add(acDBH10);
-
-        treePic = (ImageView) (findViewById(R.id.treePic));
 
         /*Check to see if any project or tree info was passed to the activity and set values*/
         Intent passedIntent = getIntent();
@@ -244,6 +248,7 @@ public class TreeEditorActivity extends AppCompatActivity {
                     addDBHToUi(tree.getDbhArray());
                     acNote.setText(tree.getNotes());
                     acHealth.setText(tree.getHealth());
+                    tree.addTreeImagesToContainer(imageContainer);
                 }
             });
         }
@@ -525,8 +530,11 @@ public class TreeEditorActivity extends AppCompatActivity {
             Log.d("CameraDemo", "Pic saved");
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            treePic.setImageBitmap(imageBitmap);
-            savePicToTree(imageBitmap);
+            ImageView imageView = new ImageView(imageContainer.getContext());
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            imageView.setImageBitmap(imageBitmap);
+            imageContainer.addView(imageView);
         }
     }
 
@@ -573,6 +581,7 @@ public class TreeEditorActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 tree = snapshot.getValue(Tree.class);
+                tree.setTreeId(snapshot.getKey());
                 callBack.onCallback(tree);
             }
 
