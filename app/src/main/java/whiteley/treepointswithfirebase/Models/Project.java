@@ -1,4 +1,4 @@
-package whiteley.treepointswithfirebase;
+package whiteley.treepointswithfirebase.Models;
 
 import android.util.Base64;
 

@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import whiteley.treepointswithfirebase.Models.Tree;
 
 
 //adapted from https://stackoverflow.com/questions/15297840/populate-listview-from-arraylist-of-objects
@@ -20,7 +23,7 @@ public class AdapterTree extends ArrayAdapter<Tree>{
     private ArrayList<Tree> lTree;
     private static LayoutInflater inflater = null;
 
-    public AdapterTree (Activity activity, int textViewResourceId,ArrayList<Tree> _lTree) {
+    public AdapterTree (Activity activity, int textViewResourceId, ArrayList<Tree> _lTree) {
         super(activity, textViewResourceId, _lTree);
         try {
             this.activity = activity;
@@ -53,7 +56,7 @@ public class AdapterTree extends ArrayAdapter<Tree>{
         public TextView display_species;
         public TextView display_comments;
         public Button update_button;
-        public Button delete_button;
+        public LinearLayout tree_image_container;
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -70,7 +73,7 @@ public class AdapterTree extends ArrayAdapter<Tree>{
                 holder.display_species = (TextView) vi.findViewById(R.id.display_species);
                 holder.display_comments= (TextView) vi.findViewById(R.id.display_comments);
                 holder.update_button = (Button) vi.findViewById(R.id.btn_update_tree);
-                holder.delete_button = (Button) vi.findViewById(R.id.btn_delete_tree);
+                holder.tree_image_container = (LinearLayout) vi.findViewById(R.id.tree_image_list);
 
                 vi.setTag(holder);
             } else {
@@ -82,7 +85,7 @@ public class AdapterTree extends ArrayAdapter<Tree>{
             holder.display_rating.setText(lTree.get(position).getHealth());
             holder.display_grade.setText(lTree.get(position).getGrade());
             holder.display_species.setText(lTree.get(position).getSpecies());
-            holder.display_comments.setText(lTree.get(position).getComments().toString());
+            holder.display_comments.setText("Comments: " + lTree.get(position).getComments().toString());
             holder.update_button.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -97,6 +100,9 @@ public class AdapterTree extends ArrayAdapter<Tree>{
                     getContext().startActivity(intent);
                 }
             });
+
+            lTree.get(position).addTreeImagesToContainer(holder.tree_image_container);
+
         } catch (Exception e) {
 
 

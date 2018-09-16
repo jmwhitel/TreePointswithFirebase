@@ -230,23 +230,18 @@
                     android:drawableLeft="@android:drawable/ic_menu_camera"
                     android:text="Take Picture"
                     android:textSize="12dp" />
-
-                <Button
-                    android:id="@+id/view_pictures"
-                    android:layout_width="125dp"
-                    android:layout_height="50dp"
-                    android:drawableLeft="@drawable/ic_camera_roll_black_24dp"
-                    android:text="View Photos"
-                    android:textSize="12dp" />
             </com.google.android.flexbox.FlexboxLayout>
 
-            <ImageView
-                android:id="@+id/treePic"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/tree_view_login" />
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageContainer"
+                    android:orientation="horizontal">
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
         </com.google.android.flexbox.FlexboxLayout>
 
 
