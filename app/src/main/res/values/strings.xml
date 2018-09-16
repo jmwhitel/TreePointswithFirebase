@@ -35,6 +35,24 @@
         <item name="pear">Pear</item>
     </string-array>
 
+    <string-array name="tree_count_estimate">
+    <item name="Select a Tree Count Estimate">Select a Tree Count Estimate</item>
+    <item name="Less Than 100">"Less Than 100 Trees"</item>
+    <item name="100 - 250">"100 - 250 Trees"</item>
+    <item name="250 - 500">"250 - 500 Trees"</item>
+    <item name="500 - 1000">"500 - 1000 Trees"</item>
+    <item name="More than 1000">"More than 1000 Trees"</item>
+</string-array>
+
+    <string-array name="acreage_estimate">
+        <item name="Select an Acreage Estimate">Select an Acreage Estimate</item>
+        <item name="Less Than 25">"Less Than 100 Trees"</item>
+        <item name="25 - 50">"25 - 50 Acres"</item>
+        <item name="50 - 100">"50 - 100 Trees"</item>
+        <item name="100 - 150">"100 - 150 Trees"</item>
+        <item name="More than 150">"More than 150 Trees"</item>
+    </string-array>
+
 
     <string-array name="grade_options">
         <item name="a">A</item>

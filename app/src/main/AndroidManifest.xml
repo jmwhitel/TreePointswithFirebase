@@ -36,6 +36,8 @@
         <activity android:name=".Login.LoginActivity"></activity>
         <activity android:name=".Login.RegisterActivity"></activity>
         <activity android:name=".MapViewer"></activity>
+        <activity android:name=".CreateManageProject.SelectProject"></activity>
+        <activity android:name=".CreateManageProject.CreateProject"></activity>
 
     </application>
     <uses-feature android:name="android.hardware.camera"

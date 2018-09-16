@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
+import whiteley.treepointswithfirebase.CreateManageProject.SelectProject;
 import whiteley.treepointswithfirebase.TreeEditorActivity;
 import whiteley.treepointswithfirebase.R;
 
@@ -117,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                                         try{
                                             if(user.isEmailVerified()){
                                                 Log.d(TAG, "onComplete: success. email is verified.");
-                                                Intent intent = new Intent(LoginActivity.this, TreeEditorActivity.class);
+                                                Intent intent = new Intent(LoginActivity.this, SelectProject.class);
                                                 startActivity(intent);
                                             }else{
                                                 Toast.makeText(mContext, "Email is not verified \n check your email inbox.", Toast.LENGTH_SHORT).show();
@@ -150,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(mAuth.getCurrentUser() != null){
-            Intent intent = new Intent(LoginActivity.this, TreeEditorActivity.class);
+            Intent intent = new Intent(LoginActivity.this, SelectProject.class);
             startActivity(intent);
             finish();
         }
