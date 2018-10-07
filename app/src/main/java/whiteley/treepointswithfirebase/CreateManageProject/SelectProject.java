@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import whiteley.treepointswithfirebase.Login.LoginActivity;
+
+import whiteley.treepointswithfirebase.Models.UserProjects;
 import whiteley.treepointswithfirebase.Models.Project;
 import whiteley.treepointswithfirebase.R;
 import whiteley.treepointswithfirebase.TreeEditorActivity;

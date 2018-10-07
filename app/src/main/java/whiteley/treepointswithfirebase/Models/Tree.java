@@ -3,18 +3,21 @@ package whiteley.treepointswithfirebase.Models;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -230,6 +233,15 @@ public class Tree {
         setNumberOfImages(this.images.size());
     }
 
+    public void addImage(Bitmap imageEncoded){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageEncoded.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        this.images.add(temp);
+        setNumberOfImages(this.images.size());
+    }
+
     public HashMap<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("status", status);
@@ -285,6 +297,7 @@ public class Tree {
             }
     }
     public void addTreeImagesToContainer(final LinearLayout container) {
+        container.removeAllViews();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference treeImageReference = database.getReference().child("Images").child(treeId);
         if (numberOfImages > 0) {
@@ -296,10 +309,11 @@ public class Tree {
                         byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                         ImageView imageView = new ImageView(container.getContext());
-                        imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
                         imageView.setImageBitmap(decodedByte);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         container.addView(imageView);
+                        imageView.getLayoutParams().height= ViewGroup.LayoutParams.MATCH_PARENT;
+
                     }
                 }
 

@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -30,6 +31,9 @@ import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -80,6 +84,9 @@ public class TreeEditorActivity extends AppCompatActivity {
     AutoCompleteTextView acProjectName;
     ArrayList<AutoCompleteTextView> dbhAutocompletes;
     ArrayList<AutoCompleteTextView> uiAutocompletes;
+
+    String[] speciesList;
+
     LinearLayout imageContainer;
 
     Project project;
@@ -121,6 +128,7 @@ public class TreeEditorActivity extends AppCompatActivity {
         acNote = findViewById(R.id.notes_spinner);
         etComments = findViewById(R.id.comments);
         imageContainer = findViewById(R.id.imageContainer);
+
 
         uiAutocompletes = new ArrayList<>();
         uiAutocompletes.add(acSpecies);
@@ -190,6 +198,7 @@ public class TreeEditorActivity extends AppCompatActivity {
                     projectNameToProject.put(project.child("projectName").getValue().toString(), project.getValue(Project.class));
                     projectIdToProject.put(project.getKey(), project.getValue(Project.class));
                     projectNames.add(project.child("projectName").getValue().toString());
+
                 }
             }
 
@@ -220,11 +229,15 @@ public class TreeEditorActivity extends AppCompatActivity {
                     tree.setProjectId(project.getProjectId());
                     treeNumberList = new ArrayList<>();
                     treeNumberList.add("New");
+
                     for (int i = 1; i <= project.getNumberOfTrees(); i++) {
                         treeNumberList.add(Integer.toString(i));
                     }
                     treeIdAdaptor = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, treeNumberList);
                     acTreeId.setAdapter(treeIdAdaptor);
+
+                    //speciesList= project.getSpeciesList();
+
                 } else {
                     Toast.makeText(TreeEditorActivity.this, "Please select a valid project name", Toast.LENGTH_SHORT).show();
                     tree.setProjectId(null);
@@ -257,6 +270,7 @@ public class TreeEditorActivity extends AppCompatActivity {
 
 
         /*Set dropdown input pre-set values*/
+
         adapter = ArrayAdapter.createFromResource(this, R.array.species_options, android.R.layout.simple_spinner_item);
         acSpecies.setAdapter(adapter);
         adapter = ArrayAdapter.createFromResource(this, R.array.grade_options, android.R.layout.simple_spinner_item);
@@ -531,10 +545,12 @@ public class TreeEditorActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             ImageView imageView = new ImageView(imageContainer.getContext());
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setImageBitmap(imageBitmap);
             imageContainer.addView(imageView);
+            tree.addImage(imageBitmap);
+            imageView.getLayoutParams().height= ViewGroup.LayoutParams.MATCH_PARENT;
         }
     }
 
