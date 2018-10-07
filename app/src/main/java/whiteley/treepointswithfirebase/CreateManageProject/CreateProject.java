@@ -30,9 +30,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import whiteley.treepointswithfirebase.Login.LoginActivity;
-import whiteley.treepointswithfirebase.Models.UserProjects;
-import whiteley.treepointswithfirebase.Project;
 import whiteley.treepointswithfirebase.R;
 import whiteley.treepointswithfirebase.TreeEditorActivity;
 
@@ -41,6 +38,12 @@ public class CreateProject extends AppCompatActivity {
     Spinner spTCEstitmate;
     Spinner spAcrEstimate;
     ArrayAdapter<CharSequence> adapter;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseDatabase database;
+    DatabaseReference databaseProjectsReference;
+    DatabaseReference databaseReference;
 
 
     @Override
@@ -97,6 +100,9 @@ public class CreateProject extends AppCompatActivity {
     }
             );
 
+// Write to the database
+
+//        databaseReference = FirebaseDatabase.getInstance().getReference();
 
 }
     private void hideSoftKeyboard() {
