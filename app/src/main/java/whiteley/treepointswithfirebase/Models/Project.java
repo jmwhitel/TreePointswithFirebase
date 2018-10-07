@@ -60,7 +60,7 @@ public class Project {
     public String getSpeciesListString() {
         return speciesListString;
     }
-    public void setSpeciesList(String speciesListString) {
+    public void setSpeciesListString(String speciesListString) {
         this.speciesListString=speciesListString;
         this.speciesList = new ArrayList<String>(Arrays.asList(speciesListString.split("\\s*,\\s*")));
 
