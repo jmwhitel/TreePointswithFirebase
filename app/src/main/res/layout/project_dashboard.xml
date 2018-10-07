@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:id="@+id/linLayOut2">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/arborpro1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
+        android:text="Project Dashboard"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:id="@+id/welcome"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="Select a Current Project:"
+        android:textSize="25sp"
+        android:id="@+id/selectInstructions"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/selectInstructions"
+        android:id="@+id/projectSpinner"
+        android:layout_centerHorizontal="true"
+        android:spinnerMode="dialog">
+    </Spinner>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="Or"
+            android:layout_marginTop="25dp"
+            />
+
+    <Button
+        android:id="@+id/btnCreateProject"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/projectSpinner"
+        android:layout_centerHorizontal="true"
+        android:text="Create New Project"
+        android:background="@drawable/white_border"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_signOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:text="SignOut"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/white_border"/>
+
+    <Button
+        android:id="@+id/btn_treeViewer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_signOut"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:text="Tree Viewer"
+        android:background="@drawable/white_border"/>
+
+
+</RelativeLayout>

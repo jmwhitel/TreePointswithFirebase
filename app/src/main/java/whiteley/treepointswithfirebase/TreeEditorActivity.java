@@ -642,7 +642,7 @@ public class TreeEditorActivity extends AppCompatActivity {
     /**
      * Setup the firebase auth object
      */
-    private void setupFirebaseAuth() {
+    public void setupFirebaseAuth() {
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
 
         mAuth = FirebaseAuth.getInstance();

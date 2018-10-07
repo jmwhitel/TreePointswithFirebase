@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:id="@+id/linLayOut">
+
+            <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/arborpro1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            />
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create a Project"
+            android:textSize="25sp"
+            android:textAlignment="center"
+            android:id="@+id/createProjectLabel"
+            android:layout_marginBottom="10dp"/>
+
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createProjectLabel"
+            android:id="@+id/etProjectName"
+            android:hint="Enter Project Name"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginBottom="10dp"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etProjectName"
+                android:id="@+id/etProjectMunicipality"
+                android:hint="Enter Project Municipality"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginBottom="10dp"
+                />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/etProjectMunicipality"
+                android:id="@+id/spTreeCountEst"
+                android:layout_marginBottom="10dp"
+                >
+            </Spinner>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/spTreeCountEst"
+                android:id="@+id/spAcreEst"
+                android:layout_marginBottom="10dp"
+                >
+            </Spinner>
+
+        <TextView
+            android:text="Share Project Access:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_below="@id/spAcreEst"
+            android:id="@+id/shareProject"/>
+        <TextView
+            android:text="Enter up to 3 Email Addresses to Share Access"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/spAcreEst"
+            android:id="@+id/emailInstructions"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Type E-mail 1"
+                android:id="@+id/share_email1"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Type E-mail 2"
+                android:id="@+id/share_email2"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Type E-mail 3"
+                android:id="@+id/share_email3"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_treeViewer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linLayOut"
+        android:text="Tree Viewer"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>
