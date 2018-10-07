@@ -16,6 +16,7 @@
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:layout_flexBasisPercent="50%"
             app:flexDirection="column">
 
             <com.google.android.flexbox.FlexboxLayout
@@ -99,7 +100,7 @@
                     android:id="@+id/label_dbh_total"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:text="DBH Total:" />
+                    android:text="@string/dbh_total" />
 
                 <TextView
                     android:id="@+id/display_dbh_total"
@@ -112,7 +113,7 @@
                 android:id="@+id/btn_update_tree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="@string/update"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </com.google.android.flexbox.FlexboxLayout>
@@ -120,22 +121,23 @@
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:layout_flexBasisPercent="50%"
             app:flexDirection="column">
 
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/tree_image_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"></LinearLayout>
-            </ScrollView>
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
             <TextView
                 android:id="@+id/display_comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
                 android:background="@drawable/background_black_border"
                 android:text="Comments: " />
         </com.google.android.flexbox.FlexboxLayout>

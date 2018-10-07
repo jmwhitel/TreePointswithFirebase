@@ -21,6 +21,10 @@
     <string name="new_tree">New Tree</string>
     <string name="additional_notes">Additional Notes</string>
     <string name="add_dbh_values">Add DBH values (up to 10)</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="add_to_database">Add to Database</string>
+    <string name="update">Update</string>
+    <string name="dbh_total">DBH Total:</string>
 
     <string-array name="species_options">
         <item name="pine">Pine</item>
