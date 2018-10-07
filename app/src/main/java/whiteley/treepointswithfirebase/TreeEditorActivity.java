@@ -236,7 +236,7 @@ public class TreeEditorActivity extends AppCompatActivity {
                     treeIdAdaptor = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, treeNumberList);
                     acTreeId.setAdapter(treeIdAdaptor);
 
-                    #speciesList= project.getSpeciesList();
+                    //speciesList= project.getSpeciesList();
 
                 } else {
                     Toast.makeText(TreeEditorActivity.this, "Please select a valid project name", Toast.LENGTH_SHORT).show();
